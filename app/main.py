@@ -25,17 +25,17 @@ number_restaurants = []
 
 for zipcode in df.ZCTA5:
 	try:
-		number_restaurants.append(query_api("japanese",str(zipcode)))
+		number_restaurants.append(query_api("mexican",str(zipcode)))
 	except urllib2.HTTPError as error:
 		number_restaurants.append(0)
 		#sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
 
 df['number_restaurants'] = number_restaurants
 
-with open("../data/basic_table.json","w") as f:
+with open("../data/basic_table_mexican.json","w") as f:
 	f.write(df.to_json())
 
-df = pd.read_json("../data/basic_table.json")
+df = pd.read_json("../data/basic_table_mexican.json")
 
 print df.head(10)
 
