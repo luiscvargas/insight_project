@@ -119,7 +119,7 @@ def query_api(term, location):
 
     if not businesses:
         print u'No businesses for {0} in {1} found.'.format(term, location)
-        return
+        return 0
 
     #business_id = businesses[0]['id']
 
@@ -135,6 +135,7 @@ def query_api(term, location):
         #print business['location']['coordinate']['longitude']
 
     #int() to convert unicode and str to integer, respectively
+        #NEED TO ADD CHECK FOR CASES WHERE POSTAL_CODE FIELD N/A
     businesses = [x for x in businesses if int(x['location']['postal_code']) == int(location)]
 
     #businesses = businesses[businesses['location']['postal_code'] == 10025]
