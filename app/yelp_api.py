@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#/usr/bin/env python
 """
 Yelp API v2.0 code sample.
 This program demonstrates the capability of the Yelp API version 2.0
