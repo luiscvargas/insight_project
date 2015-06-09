@@ -1,5 +1,6 @@
 *.pyc
 *.swp
 .ipynb_checkpoints
+*/.ipynb_checkpoints
 oauth_keys
 data
