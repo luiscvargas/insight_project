@@ -35,138 +35,139 @@ BUSINESS_PATH = '/v2/business/'
 CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET = get_oauth_data("yelp")
 
 def request(host, path, url_params=None):
-    """Prepares OAuth authentication and sends the request to the API.
-    Args:
-        host (str): The domain host of the API.
-        path (str): The path of the API after the domain.
-        url_params (dict): An optional set of query parameters in the request.
-    Returns:
-        dict: The JSON response from the request.
-    Raises:
-        urllib2.HTTPError: An error occurs from the HTTP request.
-    """
-    url_params = url_params or {}
-    url = 'http://{0}{1}?'.format(host, urllib.quote(path.encode('utf8')))
+	"""Prepares OAuth authentication and sends the request to the API.
+	Args:
+		host (str): The domain host of the API.
+		path (str): The path of the API after the domain.
+		url_params (dict): An optional set of query parameters in the request.
+	Returns:
+		dict: The JSON response from the request.
+	Raises:
+		urllib2.HTTPError: An error occurs from the HTTP request.
+	"""
+	url_params = url_params or {}
+	url = 'http://{0}{1}?'.format(host, urllib.quote(path.encode('utf8')))
 
-    consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
-    oauth_request = oauth2.Request(method="GET", url=url, parameters=url_params)
+	consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
+	oauth_request = oauth2.Request(method="GET", url=url, parameters=url_params)
 
-    oauth_request.update(
-        {
-            'oauth_nonce': oauth2.generate_nonce(),
-            'oauth_timestamp': oauth2.generate_timestamp(),
-            'oauth_token': TOKEN,
-            'oauth_consumer_key': CONSUMER_KEY
-        }
-    )
-    token = oauth2.Token(TOKEN, TOKEN_SECRET)
-    oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
-    signed_url = oauth_request.to_url()
-    
-    print u'Querying {0} ...'.format(url)
+	oauth_request.update(
+		{
+			'oauth_nonce': oauth2.generate_nonce(),
+			'oauth_timestamp': oauth2.generate_timestamp(),
+			'oauth_token': TOKEN,
+			'oauth_consumer_key': CONSUMER_KEY
+		}
+	)
+	token = oauth2.Token(TOKEN, TOKEN_SECRET)
+	oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
+	signed_url = oauth_request.to_url()
+	
+	print u'Querying {0} ...'.format(url)
 
-    conn = urllib2.urlopen(signed_url, None)
-    try:
-        response = json.loads(conn.read())
-    finally:
-        conn.close()
+	conn = urllib2.urlopen(signed_url, None)
+	try:
+		response = json.loads(conn.read())
+	finally:
+		conn.close()
 
-    return response
+	return response
 
 def search(term, location):
-    """Query the Search API by a search term and location.
-    Args:
-        term (str): The search term passed to the API.
-        location (str): The search location passed to the API.
-    Returns:
-        dict: The JSON response from the request.
-    """
-    
-    url_params = {
-        'term': term.replace(' ', '+'),
-        'location': location.replace(' ', '+'),
-        'limit': 20,
-        'sort': 1
-    }
-    return request(API_HOST, SEARCH_PATH, url_params=url_params)
+	"""Query the Search API by a search term and location.
+	Args:
+		term (str): The search term passed to the API.
+		location (str): The search location passed to the API.
+	Returns:
+		dict: The JSON response from the request.
+	"""
+	
+	url_params = {
+		'term': term.replace(' ', '+'),
+		'location': location.replace(' ', '+'),
+		'limit': 20,
+		'sort': 1
+	}
+	return request(API_HOST, SEARCH_PATH, url_params=url_params)
 
 def get_business(business_id):
-    """Query the Business API by a business ID.
-    Args:
-        business_id (str): The ID of the business to query.
-    Returns:
-        dict: The JSON response from the request.
-    """
-    business_path = BUSINESS_PATH + business_id
+	"""Query the Business API by a business ID.
+	Args:
+		business_id (str): The ID of the business to query.
+	Returns:
+		dict: The JSON response from the request.
+	"""
+	business_path = BUSINESS_PATH + business_id
 
-    return request(API_HOST, business_path)
+	return request(API_HOST, business_path)
 
 def query_api(term, location):
-    """Queries the API by the input values from the user.
-    Args:
-        term (str): The search term to query.
-        location (str): The location of the business to query.
-    """
-    response = search(term, location)
+	"""Queries the API by the input values from the user.
+	Args:
+		term (str): The search term to query.
+		location (str): The location of the business to query.
+	"""
+	response = search(term, location)
 
-    businesses = response.get('businesses')
+	businesses = response.get('businesses')
 
-    if not businesses:
-        print u'No businesses for {0} in {1} found.'.format(term, location)
-        return 0, 0
+	if not businesses:
+		print u'No businesses for {0} in {1} found.'.format(term, location)
+		return 0, 0
 
-    #business_id = businesses[0]['id']
+	#business_id = businesses[0]['id']
 
-    #print aggregate information on businesses found
+	#print aggregate information on businesses found
 
 
-    #print business zipcodes 
+	#print business zipcodes 
 
-    #for business in businesses:
+	#for business in businesses:
 
-        #print business['location']['postal_code']
-        #print business['location']['coordinate']['latitude']
-        #print business['location']['coordinate']['longitude']
+		#print business['location']['postal_code']
+		#print business['location']['coordinate']['latitude']
+		#print business['location']['coordinate']['longitude']
 
-    #int() to convert unicode and str to integer, respectively
-        #NEED TO ADD CHECK FOR CASES WHERE POSTAL_CODE FIELD N/A
-    businesses_zip = []
-    for el in businesses:
-        if 'postal_code' in el['location'].keys():
-            if int(el['location']['postal_code']) == int(location):
-                businesses_zip.append(el)
-        else:
-            pass
-    #businesses = [x for x in businesses if int(x['location']['postal_code']) == int(location)]
+	#int() to convert unicode and str to integer, respectively
+		#NEED TO ADD CHECK FOR CASES WHERE POSTAL_CODE FIELD N/A
+	businesses_zip = []
+	for el in businesses:
+		if 'postal_code' in el['location'].keys():
+			if int(el['location']['postal_code']) == int(location):
+				businesses_zip.append(el)
+		else:
+			pass
+	#businesses = [x for x in businesses if int(x['location']['postal_code']) == int(location)]
 
-    if businesses_zip == []:
-        return 0, 0
+	if businesses_zip == []:
+		return 0, 0
 
-    #businesses = businesses[businesses['location']['postal_code'] == 10025]
+	#businesses = businesses[businesses['location']['postal_code'] == 10025]
 
-    ratings = []
+	ratings = []
 
-    for business in businesses_zip:
-        print business['name']
-        print business['rating']
-        print business['location']['postal_code']
-        ratings.append([business['rating'],business['review_count']])
+	for business in businesses_zip:
+		print business['name']
+		print business['rating']
+		print business['location']['postal_code']
+		ratings.append([business['rating'],business['review_count']])
 
-    #print u'{0} businesses found in zipcode {1}'.format(len(businesses),int(location))
+	#print u'{0} businesses found in zipcode {1}'.format(len(businesses),int(location))
 
-    ratings = np.array(ratings)
-    if len(businesses_zip) > 1:
-        average_rating = np.mean(ratings[:,0])
-    else:
-        average_rating = ratings[0]
+	ratings = np.array(ratings)
+	
+	if len(businesses_zip) > 1:
+		average_rating = np.mean(ratings[:,0])
+	else:
+		average_rating = float(ratings[:,0])  # float() to flatten 1-element list from api
 
-    return len(businesses_zip),average_rating
-    #print u'{0} businesses found, querying business info for the top result "{1}" ...'.format(
-    #    len(businesses),
-    #    business_id
-    #)
+	return len(businesses_zip),average_rating
+	#print u'{0} businesses found, querying business info for the top result "{1}" ...'.format(
+	#    len(businesses),
+	#    business_id
+	#)
 
-    #response = get_business(business_id)
+	#response = get_business(business_id)
 
-    #print u'Result for business "{0}" found:'.format(business_id)
-    #pprint.pprint(response, indent=2)
+	#print u'Result for business "{0}" found:'.format(business_id)
+	#pprint.pprint(response, indent=2)

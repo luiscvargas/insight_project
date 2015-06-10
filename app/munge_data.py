@@ -81,7 +81,7 @@ for index, row in census_df.iterrows():
     	pass
     	#print mytuple, "not found"
 
-ziplist = ziplist[0:10]
+#ziplist = ziplist
 
 #Get number of restaurants (for now, later also other features) for each zipcode
 cuisines_list = ["japanese"]
