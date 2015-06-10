@@ -18,11 +18,10 @@ import pprint
 import sys
 import urllib
 import urllib2
+import numpy as np
 
 import oauth2
-
 from get_oauth_data import *
-
 
 API_HOST = 'api.yelp.com'
 DEFAULT_TERM = 'dinner'
@@ -34,12 +33,6 @@ BUSINESS_PATH = '/v2/business/'
 # OAuth credential placeholders that must be filled in by users.
 
 CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET = get_oauth_data("yelp")
-
-#CONSUMER_KEY = "ZadBAGjrilu-Ki2dNJDURQ"
-#CONSUMER_SECRET = "PAlkLzR6M_p_P5hmGqiAyqTN8FY"
-#TOKEN = "YaVok3jiWu2fmlvEZ2h3AVncYQFDj9Ut"
-#TOKEN_SECRET = "f6Y8uuWtsNukKwcjZSiwqv5-itQ"
-
 
 def request(host, path, url_params=None):
     """Prepares OAuth authentication and sends the request to the API.
@@ -120,7 +113,7 @@ def query_api(term, location):
 
     if not businesses:
         print u'No businesses for {0} in {1} found.'.format(term, location)
-        return 0
+        return 0, 0
 
     #business_id = businesses[0]['id']
 
@@ -137,17 +130,37 @@ def query_api(term, location):
 
     #int() to convert unicode and str to integer, respectively
         #NEED TO ADD CHECK FOR CASES WHERE POSTAL_CODE FIELD N/A
-    businesses = [x for x in businesses if int(x['location']['postal_code']) == int(location)]
+    businesses_zip = []
+    for el in businesses:
+        if 'postal_code' in el['location'].keys():
+            if int(el['location']['postal_code']) == int(location):
+                businesses_zip.append(el)
+        else:
+            pass
+    #businesses = [x for x in businesses if int(x['location']['postal_code']) == int(location)]
+
+    if businesses_zip == []:
+        return 0, 0
 
     #businesses = businesses[businesses['location']['postal_code'] == 10025]
 
-    for business in businesses:
+    ratings = []
 
+    for business in businesses_zip:
+        print business['name']
+        print business['rating']
         print business['location']['postal_code']
+        ratings.append([business['rating'],business['review_count']])
 
-    print u'{0} businesses found in zipcode {1}'.format(len(businesses),int(location))
+    #print u'{0} businesses found in zipcode {1}'.format(len(businesses),int(location))
 
-    return businesses
+    ratings = np.array(ratings)
+    if len(businesses_zip) > 1:
+        average_rating = np.mean(ratings[:,0])
+    else:
+        average_rating = ratings[0]
+
+    return len(businesses_zip),average_rating
     #print u'{0} businesses found, querying business info for the top result "{1}" ...'.format(
     #    len(businesses),
     #    business_id

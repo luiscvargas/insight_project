@@ -19,6 +19,7 @@ from lxml import etree
 import lxml
 import numpy as np 
 import pandas as pd
+from yelp_api import *
 
 def query_zillow(ziplist):
 
@@ -121,11 +122,14 @@ def get_census_features(df,zipcode):
 			dfsub['DP03_0057E'].astype('float').sum(),  # 50,000 to 74,999
 			dfsub['DP03_0058E'].astype('float').sum(),  # 75,000 to 99,999
 			dfsub['DP03_0059E'].astype('float').sum()]) # 100,000 to 149,999
+
+
+	#raise Exception
 	
 	income = np.array([10.,12.5,20.,30.,42.5,62.5,87.5,125.0]) * 1000.
 	average_income = np.sum(n_households * income) / np.sum(n_households)                  
 	total_population = dfsub['DP05_0001E'].astype('float').sum()
-	
+
 	#something is wrong with this variable - get same values as for total pop
 	latino_population = dfsub['DP05_0065E'].astype('float').sum()
 	
@@ -180,6 +184,14 @@ def zip_to_tract():
 
 	return zip_tract_dict
 
-def query_yelp(zipcode,business_type):
+def query_yelp(ziplist,cuisines):
 	#get number of restaurants, average rating, ...
-	return yelp_data
+
+	yelp_dict = {}
+	for zipcode in ziplist:
+		yelp_dict[zipcode] = {}
+		for cuisine in cuisines:
+			number_restaurants, average_rating = query_api(cuisine,zipcode)
+			yelp_dict[zipcode][cuisine] = [number_restaurants, average_rating]
+
+	return yelp_dict

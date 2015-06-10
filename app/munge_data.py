@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from yelp_api import *
 import argparse
 import json
 import pprint
@@ -16,16 +15,8 @@ from api_import import *
 #get list of populations by zip code - limit to New York County for now. 
 
 zip_tract_dict = zip_to_tract()
-
 tract_zip_dict = tract_to_zip()
-
 ziplist = zip_tract_dict.keys() #if y[0] == '61']
-
-ziplist = ziplist[0:3]
-
-#query zillow data and get list of zipcodes and housing values for each zipcode
-
-zillow_data = query_zillow(ziplist)
 
 #specify features in census database
 
@@ -57,6 +48,8 @@ census_vars = [["DP03_0051E", {"description": "Total households"}],
 
 census_vars_keys = [x[0] for x in census_vars]
 
+print census_vars_keys
+
 #get census information for all zip codes, one call per county/borough
 
 county_list = {"05": "Bronx", "81": "Queens", "61": "Manhattan", 
@@ -73,51 +66,48 @@ staten_df = query_census(census_vars_keys, "85")
 dfs = [manhattan_df,bronx_df,queens_df,brooklyn_df,staten_df]
 census_df = pd.concat(dfs)
 
+census_df = census_df.reset_index(drop=True)
+
 #add zipcode information to census_df
-census_df.loc[:,'zipcode'] = 0
+census_df.loc[:,"zipcode"] = 0
 for index, row in census_df.iterrows():
     mytuple = (str(row["county"]),str(row["tract"]))
     if mytuple in tract_zip_dict.keys():
+    	#row["zipcode"] = tract_zip_dict[mytuple]
         census_df.loc[index,'zipcode'] = tract_zip_dict[mytuple]
+        #print census_df.loc[index,'zipcode']
+        #print index, mytuple, tract_zip_dict[mytuple]
+    else:
+    	pass
+    	#print mytuple, "not found"
 
-#Build set of features
+ziplist = ziplist[0:10]
 
+#Get number of restaurants (for now, later also other features) for each zipcode
+cuisines_list = ["japanese"]
+yelp_data = query_yelp(ziplist,cuisines_list)
+
+#query zillow data and get list of zipcodes and housing values for each zipcode
+zillow_data = query_zillow(ziplist)
+
+#Build set of features as a list to then export to pandas --> sql 
 feature_array = []
-
 for zipcode in ziplist:
     number_households, avg_income, population, latino_population = get_census_features(census_df,zipcode)
     value_index, value_median = zillow_data[zipcode]
-    feature_array.append([zipcode, avg_income, population, value_index, value_median])
+    number_restaurants = yelp_data[zipcode]["japanese"][0]
+    average_rating = yelp_data[zipcode]["japanese"][1]
+    feature_array.append([zipcode, avg_income, population, value_index, value_median, number_restaurants, average_rating])
 
 for row in feature_array:
 	print row
 
-#restaurants = []
+df_out = pd.DataFrame(feature_array, columns=["zipcode","income","population","housing","housing_median",
+	"restaurant_number","restaurant_avg_rating"])
+
+df_out.to_json('manhattan.json')
 
 #get list of restaurants per zip code for a representative list of zipcodes
 
 	# to do later: incorporate tags for category_filter, and to eliminate 
 	#businesses that already closed (both are in yelp api)
-
-
-#for zipcode in zipcodes:
-#	try:
-#		restaurants.append(query_api("mexican",str(zipcode)))
-#	except urllib2.HTTPError as error:
-#		restaurants.append([])
-		#sys.exit('Encountered HTTP error {0}. Abort program.'.format(error.code))
-
-
-#pprint.pprint(restaurants[0])
-
-#df['number_restaurants'] = number_restaurants
-
-#with open("../data/basic_table_mexican.json","w") as f:
-#	f.write(df.to_json())
-
-#df = pd.read_json("../data/basic_table_delete.json")
-
-#print df.head(10)
-
-
-#print zip(ziplist,number_restaurants)
