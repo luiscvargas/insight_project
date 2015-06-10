@@ -84,7 +84,7 @@ for index, row in census_df.iterrows():
 #ziplist = ziplist
 
 #Get number of restaurants (for now, later also other features) for each zipcode
-cuisines_list = ["japanese"]
+cuisines_list = ["american"]
 yelp_data = query_yelp(ziplist,cuisines_list)
 
 #query zillow data and get list of zipcodes and housing values for each zipcode
@@ -95,8 +95,8 @@ feature_array = []
 for zipcode in ziplist:
     number_households, avg_income, population, latino_population = get_census_features(census_df,zipcode)
     value_index, value_median = zillow_data[zipcode]
-    number_restaurants = yelp_data[zipcode]["japanese"][0]
-    average_rating = yelp_data[zipcode]["japanese"][1]
+    number_restaurants = yelp_data[zipcode]["american"][0]
+    average_rating = yelp_data[zipcode]["american"][1]
     feature_array.append([zipcode, avg_income, population, value_index, value_median, number_restaurants, average_rating])
 
 for row in feature_array:
@@ -105,7 +105,7 @@ for row in feature_array:
 df_out = pd.DataFrame(feature_array, columns=["zipcode","income","population","housing","housing_median",
 	"restaurant_number","restaurant_avg_rating"])
 
-df_out.to_json('manhattan.json')
+df_out.to_json('american.json')
 
 #get list of restaurants per zip code for a representative list of zipcodes
 
