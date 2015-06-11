@@ -4,3 +4,6 @@
 */.ipynb_checkpoints/*.ipynb
 oauth_keys
 data
+app/static/css/*
+app/static/js/*
+app/static/fonts/*
