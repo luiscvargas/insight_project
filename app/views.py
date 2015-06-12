@@ -6,13 +6,13 @@ import numpy as np
 #db = mdb.connect(user="root",host="localhost",db="world_innodb",
 #	charset='utf8',unix_socket="/opt/local/var/run/mysql56/mysqld.sock")
 
-@app.route('/')
-@app.route('/index')
-def index():
-	user = { 'nickname': 'Luis' }
-	return render_template("index.html",
-		title = "Home",
-		user = user)
+#@app.route('/')
+#@app.route('/index')
+#def index():
+#	user = { 'nickname': 'Luis' }
+#	return render_template("index.html",
+#		title = "Home",
+#		user = user)
 
 #@app.route('/db_fancy')
 #def cities_page_fancy():
@@ -25,6 +25,8 @@ def index():
 #		cities.append(dict(name=result[0], country=result[1], population=result[2]))
 #	return render_template('cities.html', cities=cities)
 
+@app.route('/')
+@app.route('/index')
 @app.route('/input')
 def restaurants_input():
 	return render_template("input.html")
