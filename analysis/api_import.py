@@ -36,6 +36,8 @@ def query_zillow(ziplist):
 	
 	for zipcode in ziplist:
 
+		print "zipcode = ",zipcode
+
 		with open("../oauth_keys/zillow.keys") as f:
 			zillow_key = f.read().strip("\n")
 			zillow_url = zillow_string + zillow_key + "&zip=" + zipcode
@@ -51,19 +53,25 @@ def query_zillow(ziplist):
 	
 			#get Zillow Home Value Index from the XML tree	
 			find = etree.XPath(".//response/pages/page/tables/table/data/attribute/name[text()='Zillow Home Value Index']")
-			element = find(root)[0]  # [0] single element, in general, find(root) returns list.  
-			try: 
-				value_index = float(element.getparent().find("values/zip/value").text)
-			except: 
+			if find(root) == []:
 				value_index = np.nan
+			else:
+				element = find(root)[0]  # [0] single element, in general, find(root) returns list.  
+				try: 
+					value_index = float(element.getparent().find("values/zip/value").text)
+				except: 
+					value_index = np.nan
 	
 			#get median sale price from the XML tree	
 			find = etree.XPath(".//response/pages/page/tables/table/data/attribute/name[text()='Median Sale Price']")
-			element = find(root)[0]  # [0] single element, in general, find(root) returns list.  
-			try: 
-				value_median = float(element.getparent().find("values/zip/value").text)
-			except: 
-				value_median = np.nan
+			if find(root) == []:
+				value_index = np.nan
+			else:
+				element = find(root)[0]  # [0] single element, in general, find(root) returns list.  
+				try: 
+					value_median = float(element.getparent().find("values/zip/value").text)
+				except: 
+					value_median = np.nan
 	
 			output_dict[zipcode] = [value_index, value_median]
 
