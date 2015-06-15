@@ -163,11 +163,11 @@ def zip_to_tract():
 
 	int_county = df['COUNTY'].astype('int')
 
-	#df = df[(df['STATE'] == '36') & 
-	#	((int_county == 5) | (int_county == 61) | (int_county == 81) |
-	#		(int_county == 47) | (int_county == 85))].reset_index()
+	df = df[(df['STATE'] == '36') & 
+		((int_county == 5) | (int_county == 61) | (int_county == 81) |
+			(int_county == 47) | (int_county == 85))].reset_index()
 
-	df = df[(df['STATE'] == '36') & (int_county == 61)].reset_index()
+	#df = df[(df['STATE'] == '36') & (int_county == 61)].reset_index()
 
 	ziplist = df["ZCTA5"].unique()
 
@@ -184,14 +184,14 @@ def zip_to_tract():
 
 	return zip_tract_dict
 
-def query_yelp(ziplist,cuisines):
+#def query_yelp(ziplist,cuisines):
 	#get number of restaurants, average rating, ...
 
-	yelp_dict = {}
-	for zipcode in ziplist:
-		yelp_dict[zipcode] = {}
-		for cuisine in cuisines:
-			number_restaurants, average_rating = query_api(cuisine,zipcode)
-			yelp_dict[zipcode][cuisine] = [number_restaurants, average_rating]
+#	yelp_dict = {}
+#	for zipcode in ziplist:
+#		yelp_dict[zipcode] = {}
+#		for cuisine in cuisines:
+#			number_restaurants, average_rating = query_api(cuisine,zipcode)
+#			yelp_dict[zipcode][cuisine] = [number_restaurants, average_rating]
 
-	return yelp_dict
+#	return yelp_dict
