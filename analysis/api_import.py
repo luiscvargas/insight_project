@@ -106,7 +106,7 @@ def query_census(census_vars_keys, county_code):
 	census_data = r.json()
 	census_df = pd.DataFrame(census_data)
 	census_df.columns = census_df.iloc[0]
-	census_df = census_df[1:].reset_index()
+	census_df = census_df[1:].reset_index(drop=True)
 	return census_df
 
 def get_census_features(df,zipcode):
