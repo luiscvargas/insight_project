@@ -63,7 +63,7 @@ def request(host, path, url_params=None):
     oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
     signed_url = oauth_request.to_url()
     
-    print u'Querying {0} ...'.format(url)
+    #print u'Querying {0} ...'.format(url)
 
     conn = urllib2.urlopen(signed_url, None)
     try:
@@ -74,7 +74,7 @@ def request(host, path, url_params=None):
     return response
 
 #def search(term, location):
-def search(term, bounds_str):
+def search_keyword(term, bounds_str):
     """Query the Search API by a search term and location.
     Args:
         term (str): The search term passed to the API.
@@ -84,12 +84,34 @@ def search(term, bounds_str):
         dict: The JSON response from the request.
     """
     
+    #search by keyword and geo bounds.
     url_params = {
         'term': term.replace(' ', '+'),
         'bounds': bounds_str,
         'limit': 20,
         'sort': 1
     }
+
+    return request(API_HOST, SEARCH_PATH, url_params=url_params)
+
+def search_category(term, category, bounds_str):
+    """Query the Search API by a search term and location.
+    Args:
+        term (str): The search term passed to the API.
+        bounds_str (str): Lat/Lon bounding box: "lat_min,lon_max|lat_max,lon_min"
+                Recall lon_min = east, and lon_max = west (so passing west, east)
+    Returns:
+        dict: The JSON response from the request.
+    """
+
+    url_params = {
+        'term': term.replace(' ', '+'),
+        'category_filter': category.replace(' ', ','),  # searches AND 
+        'bounds': bounds_str,
+        'limit': 20,
+        'sort': 1
+    }
+
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
 
 def get_business(business_id):
@@ -104,7 +126,7 @@ def get_business(business_id):
     return request(API_HOST, business_path)
 
 #def query_api(term, location):
-def query_api(term, bounds_str):
+def query_api(term, category, bounds_str):
     """Queries the API by the input values from the user.
     Args:
         term (str): The search term to query.
@@ -112,24 +134,16 @@ def query_api(term, bounds_str):
         Recall lon_min = east, and lon_max = west (so passing west, east)
     """
     #response = search(term, location)
-    response = search(term, bounds_str)
+    response = search_category(term, category, bounds_str)
 
     businesses = response.get('businesses')
 
     if businesses == []:
         #print u'No businesses for {0} in {1} found.'.format(term, location)
-        print u'No businesses for {0} in {1} found.'.format(term, bounds_str)
-        return 0, 0
-
-    #business_id = businesses[0]['id']
-
-    #print aggregate information on businesses found
-
-
-    #print business zipcodes 
+        #print 'No businesses for {0} in {1} found.'.format(category, bounds_str)
+        return []
 
     #for business in businesses:
-
         #print business['location']['postal_code']
         #print business['location']['coordinate']['latitude']
         #print business['location']['coordinate']['longitude']
@@ -145,13 +159,8 @@ def query_api(term, bounds_str):
 
     #businesses = businesses[businesses['location']['postal_code'] == 10025]
 
-    business_api_data = []
-
-    for business in businesses:
-        print business['id']
-        print business['name']
-        print business['rating']
-        print business['location']['postal_code']
+    #for business in businesses:
+        #print business['id'],business['name'],business['rating'],business['location']['postal_code']
         #business_api_data.append(business)
 
     #print u'{0} businesses found in zipcode {1}'.format(len(businesses),int(location))
@@ -163,14 +172,4 @@ def query_api(term, bounds_str):
     #else:
     #    average_rating = float(ratings[:,0])  # float() to flatten 1-element list from api
 
-    #return len(businesses),average_rating
     return businesses
-    #print u'{0} businesses found, querying business info for the top result "{1}" ...'.format(
-    #    len(businesses),
-    #    business_id
-    #)
-
-    #response = get_business(business_id)
-
-    #print u'Result for business "{0}" found:'.format(business_id)
-    #pprint.pprint(response, indent=2)

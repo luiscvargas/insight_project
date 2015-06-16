@@ -19,7 +19,6 @@ from lxml import etree
 import lxml
 import numpy as np 
 import pandas as pd
-from yelp_api import *
 
 def query_zillow(ziplist):
 
@@ -36,44 +35,49 @@ def query_zillow(ziplist):
 	
 	for zipcode in ziplist:
 
-		print "zipcode = ",zipcode
-
-		with open("../oauth_keys/zillow.keys") as f:
-			zillow_key = f.read().strip("\n")
-			zillow_url = zillow_string + zillow_key + "&zip=" + zipcode
-			r = requests.get(zillow_url)
-			#create tree from html content
-			parser = etree.XMLParser()
-			root = etree.fromstring(r.content)
-		
-		if len(parser.error_log) != 0:
-			output_dict[zipcode] = [np.nan, np.nan]
+		if zipcode == "0":
+			output_dict["0"] = [np.nan,np.nan]
 
 		else:
-	
-			#get Zillow Home Value Index from the XML tree	
-			find = etree.XPath(".//response/pages/page/tables/table/data/attribute/name[text()='Zillow Home Value Index']")
-			if find(root) == []:
-				value_index = np.nan
+
+			print "zipcode = ",zipcode
+
+			with open("../oauth_keys/zillow.keys") as f:
+				zillow_key = f.read().strip("\n")
+				zillow_url = zillow_string + zillow_key + "&zip=" + zipcode
+				r = requests.get(zillow_url)
+				#create tree from html content
+				parser = etree.XMLParser()
+				root = etree.fromstring(r.content)
+		
+			if len(parser.error_log) != 0:
+				output_dict[zipcode] = [np.nan, np.nan]
+
 			else:
-				element = find(root)[0]  # [0] single element, in general, find(root) returns list.  
-				try: 
-					value_index = float(element.getparent().find("values/zip/value").text)
-				except: 
+	
+				#get Zillow Home Value Index from the XML tree	
+				find = etree.XPath(".//response/pages/page/tables/table/data/attribute/name[text()='Zillow Home Value Index']")
+				if find(root) == []:
 					value_index = np.nan
+				else:
+					element = find(root)[0]  # [0] single element, in general, find(root) returns list.  
+					try: 
+						value_index = float(element.getparent().find("values/zip/value").text)
+					except: 
+						value_index = np.nan
 	
-			#get median sale price from the XML tree	
-			find = etree.XPath(".//response/pages/page/tables/table/data/attribute/name[text()='Median Sale Price']")
-			if find(root) == []:
-				value_index = np.nan
-			else:
-				element = find(root)[0]  # [0] single element, in general, find(root) returns list.  
-				try: 
-					value_median = float(element.getparent().find("values/zip/value").text)
-				except: 
-					value_median = np.nan
+				#get median sale price from the XML tree	
+				find = etree.XPath(".//response/pages/page/tables/table/data/attribute/name[text()='Median Sale Price']")
+				if find(root) == []:
+					value_index = np.nan
+				else:
+					element = find(root)[0]  # [0] single element, in general, find(root) returns list.  
+					try: 
+						value_median = float(element.getparent().find("values/zip/value").text)
+					except: 
+						value_median = np.nan
 	
-			output_dict[zipcode] = [value_index, value_median]
+				output_dict[zipcode] = [value_index, value_median]
 
 	return output_dict
 
