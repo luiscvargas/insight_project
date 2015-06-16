@@ -126,6 +126,10 @@ def query_census(census_vars_keys, county_code):
 		keys1 = list(itertools.chain.from_iterable(keys1))
 		keys2 = list(itertools.chain.from_iterable(keys2))
 
+		#print keys1
+
+		#raise ValueError
+
 		r1 = requests.get(format_census_request(keys1,county_code))
 		r2 = requests.get(format_census_request(keys2,county_code))
 
@@ -134,7 +138,7 @@ def query_census(census_vars_keys, county_code):
 		df1.columns = df1.iloc[0]
 		df1 = df1[1:].reset_index(drop=True)
 
-		df1 = df1.set_index(["tr","cty"])
+		#df1 = df1.set_index(["tr","cty"])
 
 		census_data_2 = r2.json()
 		df2 = pd.DataFrame(census_data_2)
@@ -145,7 +149,7 @@ def query_census(census_vars_keys, county_code):
 
 		df2.drop(['state','county','tract'], axis=1, inplace=True)
 
-		census_df = df1.join(df2)
+		census_df = df1.join(df2,on=["tr","cty"])
 
 		census_df = census_df.reset_index(drop=True)
 
