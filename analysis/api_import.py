@@ -105,6 +105,8 @@ def format_census_request(list_keys,county,state="36"):
 	url_vars = ",".join(list_keys)
 	url_reg  = "&for=tract:" + tract + "&in=state:" + state + "+county:" + county + "&key=" + census_key
 	url = url_root + url_vars + url_reg
+
+	print url
 	
 	return url
 
@@ -113,12 +115,49 @@ def query_census(census_vars_keys, county_code):
 	#data in requested zipcode.
 	
 	#Request data for a given county
-	r = requests.get(format_census_request(census_vars_keys,county_code))
 
-	census_data = r.json()
-	census_df = pd.DataFrame(census_data)
-	census_df.columns = census_df.iloc[0]
-	census_df = census_df[1:].reset_index(drop=True)
+	import itertools
+
+	if len(census_vars_keys) > 40:
+
+		keys1 = [census_vars_keys[0:2],census_vars_keys[2:30]]
+		keys2 = [census_vars_keys[0:2],census_vars_keys[30:]]
+
+		keys1 = list(itertools.chain.from_iterable(keys1))
+		keys2 = list(itertools.chain.from_iterable(keys2))
+
+		r1 = requests.get(format_census_request(keys1,county_code))
+		r2 = requests.get(format_census_request(keys2,county_code))
+
+		census_data_1 = r1.json()
+		df1 = pd.DataFrame(census_data_1)
+		df1.columns = df1.iloc[0]
+		df1 = df1[1:].reset_index(drop=True)
+
+		df1 = df1.set_index(["tr","cty"])
+
+		census_data_2 = r2.json()
+		df2 = pd.DataFrame(census_data_2)
+		df2.columns = df2.iloc[0]
+		df2 = df2[1:].reset_index(drop=True)
+
+		df2 = df2.set_index(["tr","cty"])
+
+		df2.drop(['state','county','tract'], axis=1, inplace=True)
+
+		census_df = df1.join(df2)
+
+		census_df = census_df.reset_index(drop=True)
+
+	else:	
+
+		r = requests.get(format_census_request(census_vars_keys,county_code))
+	
+		census_data = r.json()
+		census_df = pd.DataFrame(census_data)
+		census_df.columns = census_df.iloc[0]
+		census_df = census_df[1:].reset_index(drop=True)
+
 	return census_df
 
 def get_census_features(df,zipcode):

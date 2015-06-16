@@ -66,7 +66,14 @@ for category in yelp_categories_usa:
 
 #based on the list above
 category_cuisine_list = ["mexican", "chinese", "japanese", "latin", "greek"]
-category_cuisine_list = ["mexican","chinese"]
+
+#category_cuisine_list = ["mexican","chinese"]  DONE
+
+#category_cuisine_list = ["japanese", "latin", "greek"] DONE
+
+#category_cuisine_list = ["puertorican","cuban","indpak","italian"] DONE
+
+category_cuisine_list = ["newamerican","tradamerican","vegetarian"]
 
 
 print("You will get restaurants of the following categories:")
@@ -76,10 +83,10 @@ raw_input("Press any key to continue   ")
 
 #Query YELP API and get restaurant data
 
-yelp_dict = {}
+#yelp_dict = {}
 
-#with open("../data/yelp/yelp_api_data.json", 'r') as fp:
-#    yelp_dict = json.load(fp)
+with open("../data/yelp/yelp_api_data.json", 'r') as fp:
+    yelp_dict = json.load(fp)
 
 count_api_calls = 0
 
