@@ -11,72 +11,141 @@
       
       <title>underServed</title>
 
-      <link href="../static/css/restaurants.css" rel="stylesheet">
       <!-- Bootstrap core CSS -->
       <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+      <link href="../static/css/restaurants.css" rel="stylesheet">
+
 
       <!-- Custom styles for this template -->
+      <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+      <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400italic,700,600,400' rel='stylesheet' type='text/css'>
 
    </head>
 
 	<body>
+      
+   <div class="container">
 
    <div class="container-fluid">
-      <div class="row">
-         <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center">
-            <h1 id="title">Where should I open a restaurant?</h1>
+   
+      <div class="row margin-md">
+      
+         <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0 text-center">
+         
+            <h1 id="title">underServed!</h1>
+            
          </div>
+      
       </div>
-
-      <div class="row">
-         <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center explanation">
-            <div>Enter a type of cuisine, e.g., Japanese</div>
-         </div>
-      </div>      
-
-      <br>
       
       <div class="row">
-         <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center">
+      
+         <div class="col-md-4 col-md-offset-5 col-sm-5 col-sm-offset-5 col-xs-12 col-xs-offset-0 text-center">
+            
+            <div id="subtitle">Where to open a restaurant?</div>
+         
+         </div>
+      
+      </div>
+      
+      <div class="row margin-md">
+
+         <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4 text-center">
             <form role="form" action="/output" method="GET">
 
-               <div class="form-group">
-                  <input type="text" class="form-control" id="ID" name="ID" placeholder="Type of Cuisine">
-                  <br>
-                  <button type="submit" class="btn btn-default btn-lg">Return best zipcodes!</button>
+               <div class="input-group">
+                  <input type="text" class="form-control input-md" id="ID" name="ID" placeholder="Cuisine">
+                  <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default btn-md">Return best zipcodes!</button>
+                  </span>
                </div>
 
             </form>
          </div>
-      </div>     
-      
-      <div class="row">
-         <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center">
-            <h3 id="results-title">List of Suggested Locations!</h3>
-            {% if areas != []%}
-            <p class="explanation">Check out the zipcodes below!</p>
-            {% else %}
-            <p class="explanation" style="color: darkblue">Patience! This is an MVP! ^0^<br>
-            Model for {{ cuisine }} cuisine is not yet available.</p>
-            {% endif %}
-			</div>
-      </div>
 
+      </div>
+   
+   </div>
+
+      <br>
+      
+   <div class="container-fluid margin-lg">
       
       <div class="row">
-         <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
-            {% if areas != []%}
-            <div class="table-responsive">
-               <table class="table table-striped table-hover text-center">
-    	          <tr><th class="text-center">Zipcode</th><th class="text-center">Score</th></tr>
-    	             {% for area in areas %}
-                     <tr><td class="list-results">{{ area['zipcode'] }}</td><td class="list-results">{{ area['score']}}</td></tr>
-    	             {% endfor %}
-               </table>
-               {% endif %}
+         
+         <div class="zip-info col-md-5 col-md-offset-0 col-sm-5 col-sm-offset-0 col-xs-6 col-xs-offset-0 text-center">
+               
+            <div class="row">
+ 
+                  <h4 id="results-title">Suggested Zipcodes</h4>
+                  
+            </div> 
+               
+            <div class="row">
+                  {% if areas != []%}
+                  <div class="table-responsive">
+                     <table class="table table-striped table-hover text-center">
+    	                   <tr><th class="text-center">Zipcode</th><th class="text-center">Borough</th>
+                        <th class="text-center">Normalized Score</th></tr>
+    	                {% for area in areas %}
+                        <tr>
+                        <td class="col-md-4 col-sm-4 col-xs-4 list-results">{{ area['zipcode'] }}</td>
+                        <td class="col-md-4 col-sm-4 col-xs-4 list-results">{{ area['score']}}</td>
+                        <td class="col-md-4 col-sm-4 col-xs-4 list-results">{{ area['score']}}</td>
+                        </tr>
+    	                {% endfor %}
+                     </table>
+                  </div>
+                  {% else %}
+                     <p> Sorry, no information available.</p>
+                  {% endif %}
+
             </div>
-		    </div>
+         
+         </div>
+
+         <div class="extra-info col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2 col-xs-6 col-xs-offset-0 text-center">
+            
+            <div class="row">
+ 
+                  <h4 id="results-title">Information on Model</h4>
+                  {% if areas == []%}
+                  <p class="explanation" style="color: darkblue">Patience! This is an MVP! ^0^<br>
+                  Model for {{ cuisine }} cuisine is not yet available.</p>
+                  {% endif %}
+                  
+            </div> 
+            
+            
+            Confidence in Model for {{ cuisine }} food is {{ confidence_string }}.<br>
+            asfdsa
+            asdfasf
+            afdasfds
+            afdasfasf
+            <br>
+         </div>
+
       </div>
+   
+   </div>
+   <br><br><br><br><<br><br>
+   <div class="container-fluid margin-lg">
+      
+      <div class="row">
+         
+         <div class="map-info col-md-6 col-md-offset-0 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0 text-center">
+            HERE GO ZIPCODES
+         </div>
+
+         <div class="price-info col-md-6 col-md-offset-0 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0 text-center">
+            HERE GOES EXPLANATION
+         </div>
+      
+      </div>
+      
+   </div>
+      
+      
 
       <!--
 		<div class="container">
@@ -86,12 +155,12 @@
 					your package.<br>The result is {{the_result}}</p>
 			</div>
       </div> -->
-   </div>
 
+   </div>
 		<!-- Bootstrap core JavaScript
-		================================================== -->
-   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-   <script src="static/js/bootstrap.min.js"></script>
+		================================================== -->      
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="static/js/bootstrap.min.js"></script>
    <script src="static/js/restaurants.js"></script>
    
 	</body>
