@@ -6,7 +6,6 @@ import simplejson as json
 import string
 import pandas as pd
 
-
 #db = mdb.connect(user="root",host="localhost",db="world_innodb",
 #	charset='utf8',unix_socket="/opt/local/var/run/mysql56/mysqld.sock")
 
@@ -35,7 +34,7 @@ import pandas as pd
 def restaurants_input():
 	return render_template("input.html")
 
-@app.route('/output')
+@app.route('/output',methods=["GET","POST"])
 def restaurants_output():
 
 	#SET DEFAUILT NUMBER OF ZIPCODES TO PRINT OUT
@@ -49,18 +48,14 @@ def restaurants_output():
 	with open("app/static/dat/cuisine_types_enabled.dat") as fp:
 		cuisine_types = fp.read().strip("\n")
 
-	cuisine_usr = request.args.get("cuisine").lower()
 
-	nyc = request.args.get("area")
-
-	print cuisine_usr
-
-	print request.args
-
+	cuisine_usr = request.args.get("cuisine")
+	boroughs = request.args.getlist("area")
+	print cuisine_usr.lower(), boroughs
 
 	#convert alternate spellings
 	try: 
-		cuisine_type = cuisine_dict[cuisine_usr]
+		cuisine_type = cuisine_dict[cuisine_usr.lower()]
 	except: 
 		with open("app/static/dat/cuisine_types_enabled.dat") as fp:
 			cuisine_types = fp.read().split("\n")
@@ -73,6 +68,14 @@ def restaurants_output():
 	dx_rf = "dx_rf_"+cuisine_type
 	feature_cuisine = "number_restaurants_"+cuisine_type
 	feature_cuisine_capita = "number_restaurants_capita_"+cuisine_type
+
+	#restrict to areas within boroughs specified
+	if boroughs != []:
+		if "nyc" not in boroughs:
+			df_arr = []
+			for borough in boroughs:	
+				df_arr.append(df[df['BOROUGH'].str.lower() == borough])
+			df = pd.concat(df_arr)
 
 	dfsub = df.sort(columns=dx_linear, axis=0, 
         ascending=True, inplace=False, kind='quicksort', 

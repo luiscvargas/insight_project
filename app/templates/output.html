@@ -40,7 +40,7 @@
       
       <div class="row">
       
-         <div class="col-md-5 col-md-offset-4 col-sm-6 col-sm-offset-4 col-xs-12 col-xs-offset-0 text-center">
+         <div class="col-md-5 col-md-offset-4 col-sm-7 col-sm-offset-3 col-xs-12 col-xs-offset-0 text-center">
             
             <div id="subtitle">Where to open a restaurant?</div>
          
@@ -50,14 +50,39 @@
       
       <div class="row margin-md">
 
-         <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3 text-center">
+         <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-center">
+
             <form role="form" action="/output" method="GET">
 
+               <div class="row">
+               
                <div class="input-group">
                   <input type="text" class="form-control input-md" id="NAME" name="cuisine" placeholder="Cuisine">
                   <span class="input-group-btn">
                   <button type="submit" class="btn btn-default btn-md">Get results!</button>
                   </span>
+               </div>
+               
+               </div>
+               
+               <div class="row">
+
+                  <div class="form-group" id="borough-checkboxes">
+
+                  <label class="checkbox-inline">
+                     <input type="checkbox" name="area" value="nyc" id="checkbox-nyc">NYC</label>
+                  <label class="checkbox-inline">
+                     <input type="checkbox" name="area" value="manhattan" id="checkbox-manhattan">MANHATTAN</label>
+                  <label class="checkbox-inline">
+                     <input type="checkbox" name="area" value="brooklyn" id="checkbox-brooklyn">BROOKYLN</label>
+                  <label class="checkbox-inline">
+                     <input type="checkbox" name="area" value="queens" id="checkbox-queens">QUEENS</label>
+                  <label class="checkbox-inline">
+                     <input type="checkbox" name="area" value="bronx" id="checkbox-bronx">BRONX</label>
+                  <label class="checkbox-inline">
+                     <input type="checkbox" name="area" value="staten" id="checkbox-staten" value="">STATEN</label>
+                  </div>
+                  
                </div>
 
             </form>
@@ -76,25 +101,7 @@
       <div class="row margin-md">
       
          <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-xs-offset-0 text-center">
-      
-            <form class="form-inline" role="form" action="/output" method="GET">
-               
-               <div class="form-group" id="borough-checkboxes">
-                  <label class="checkbox-inline">
-                     <input type="checkbox" checked=checked name="area" value="nyc" id="checkbox-nyc">NYC</label>
-                  <label class="checkbox-inline">
-                     <input type="checkbox" checked=checked name="area" value="manhattan" id="checkbox-manhattan">MANHATTAN</label>
-                  <label class="checkbox-inline">
-                     <input type="checkbox" checked=checked name="area" value="brooklyn" id="checkbox-brooklyn">BROOKYLN</label>
-                  <label class="checkbox-inline">
-                     <input type="checkbox" checked=checked name="area" value="queens" id="checkbox-queens">QUEENS</label>
-                  <label class="checkbox-inline">
-                     <input type="checkbox" checked=checked name="area" value="bronx" id="checkbox-bronx">BRONX</label>
-                  <label class="checkbox-inline">
-                     <input type="checkbox" checked=checked name="area" value="staten" id="checkbox-staten" value="">STATEN ISLAND</label>
-               </div>
-            
-            </form>
+   
       
          </div>
       </div>
@@ -192,30 +199,26 @@
          
             <div class="additional-info col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12 col-xs-offset-0 text-center">
 
-               <div class="input-group" style="width: 100%;">
+               <div class="input-group" style="width: 100%">
                   
-                  <div class="col-md-4 text-center">
-                  <button type="button" class="btn btn-default" aria-label="Left Align">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+                  <button type="button" class="btn btn-default btn-sm" aria-label="Left Align">
                      <span class="label label-primary" aria-hidden="true">More information on this Zipcode</span>
-                     <span class="glyphicon" aria-hidden="true"></span>
                   </button>
                   </div>
                   
-                  <div class="col-md-4 text-center">
-                  <button type="button" class="btn btn-default" aria-label="Left Align">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+                  <button type="button" class="btn btn-default btn-sm" aria-label="Left Align">
                      <span class="label label-info" aria-hidden="true">Link to Technical Analysis</span>
-                     <span class="glyphicon" aria-hidden="true"></span>
                   </button>
                   </div>
                   
                      
-                  <div class="col-md-4 text-center">
-                  <button type="button" class="btn btn-default" aria-label="Left Align">
+                  <div class="col-md-4 col-sm-4 col-xs-4text-center">
+                  <button type="button" class="btn btn-default btn-sm" aria-label="Left Align">
                      <span class="label label-success" aria-hidden="true">About me</span>
-                     <span class="glyphicon" aria-hidden="true"></span>
                   </button>
-                  </div>
-               
+                  </div>               
 
                </div>
 
