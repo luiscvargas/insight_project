@@ -1,32 +1,11 @@
 from flask import render_template, request
 from app import app
-import pymysql as mdb
 import numpy as np
 import simplejson as json
 import string
 import pandas as pd
+#import pymysql as mdb
 
-#db = mdb.connect(user="root",host="localhost",db="world_innodb",
-#	charset='utf8',unix_socket="/opt/local/var/run/mysql56/mysqld.sock")
-
-#@app.route('/')
-#@app.route('/index')
-#def index():
-#	user = { 'nickname': 'Luis' }
-#	return render_template("index.html",
-#		title = "Home",
-#		user = user)
-
-#@app.route('/db_fancy')
-#def cities_page_fancy():
-#	with db:
-#		cur = db.cursor()
-#		cur.execute("SELECT Name, CountryCode, Population FROM City ORDER BY Population LIMIT 15;")
-#		query_results = cur.fetchall()
-#	cities = []
-#	for result in query_results:
-#		cities.append(dict(name=result[0], country=result[1], population=result[2]))
-#	return render_template('cities.html', cities=cities)
 
 @app.route('/')
 @app.route('/index')
@@ -88,15 +67,6 @@ def restaurants_output():
 	zipcodes = [str(int(x)) for x in dfsub.index.values.tolist()]
 
 	areas = zip(zipcodes,boroughs,deviations)
-
-	#query_results = np.genfromtxt("/Users/deneb/insight/insight_project/data/zip_codes_"+cuisine_code+".csv",delimiter=",",
-	#	names="zipcode,score",usecols=(0,1))
-
-	#query_results = query_results[0:5]  #only top five
-
-	#areas = []
-	#for result in query_results:
-	#	areas.append(dict(zipcode="{0:<5d}".format(int(result[0])),score="{0:<5.2f}".format(result[1])))
 
 	#call a function from a_Model package, note we are only pulling one result in the query
 

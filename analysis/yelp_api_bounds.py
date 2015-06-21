@@ -143,10 +143,12 @@ def query_api(term, category, bounds_str):
         #print 'No businesses for {0} in {1} found.'.format(category, bounds_str)
         return []
 
-    #for business in businesses:
+    for business in businesses:
         #print business['location']['postal_code']
         #print business['location']['coordinate']['latitude']
         #print business['location']['coordinate']['longitude']
+        print "is_closed? : ",business['is_closed']
+
 
     #businesses_zip = []
     #   for el in businesses:

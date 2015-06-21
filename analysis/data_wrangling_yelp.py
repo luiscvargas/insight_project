@@ -65,7 +65,6 @@ for category in yelp_categories_usa:
     print category.keys()[0]," : ",category.values()[0]
 
 #based on the list above
-category_cuisine_list = ["mexican", "chinese", "japanese", "latin", "greek"]
 
 #category_cuisine_list = ["mexican","chinese"]  DONE
 
@@ -73,8 +72,16 @@ category_cuisine_list = ["mexican", "chinese", "japanese", "latin", "greek"]
 
 #category_cuisine_list = ["puertorican","cuban","indpak","italian"] DONE
 
-category_cuisine_list = ["newamerican","tradamerican","vegetarian"]
+#category_cuisine_list = ["newamerican","tradamerican","vegetarian"] DONE
 
+category_cuisine_list = ["arabian", "brazilian", "cafes", "diners", "ethiopian", 
+"korean", "mideastern", "peruvian", "colombian", "pizza", "seafood", "soup", "spanish", "french", 
+"turkish", "vegan"]
+
+category_cuisine_list = ["arabian", "brazilian", "cafes", "diners", "ethiopian", 
+"korean", "mideastern", "peruvian"]
+
+#category_cuisine_list = ["japanese"]
 
 print("You will get restaurants of the following categories:")
 for category in category_cuisine_list:
