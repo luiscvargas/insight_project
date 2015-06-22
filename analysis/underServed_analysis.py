@@ -41,7 +41,7 @@ def first_element(x):
     return x.iloc[0]
 
 #set to True to produce diagnostic plots and disable writing outputs
-diagnose = False
+diagnose = True
 plt.style.use('ggplot')
 
 #Load yelp api dataframe
@@ -61,6 +61,46 @@ dftract.set_index(['COUNTY_ID', 'TRACT_ID'],inplace=True,drop=True)
 
 if diagnose == True:
     print(dftract.columns)
+
+#Add restaurant numbers to DF
+#First, add features based on types of restaurants to be queried.
+dftract['number_restaurants'] = 0.0
+for category_cuisine in cuisine_types:
+    dftract['number_restaurants_'+category_cuisine] = 0.0
+    dftract['average_rating_restaurants_'+category_cuisine] = np.nan
+    dftract['unweighed_average_rating_restaurants_'+category_cuisine] = np.nan
+    dftract['closed_number_restaurants_'+category_cuisine] = 0.0
+if diagnose == True: print(dftract.head(5))
+
+for category_cuisine in cuisine_types:
+    print category_cuisine
+    for (key,value) in yelp[category_cuisine].items():
+        scores = []
+        weights = []
+        closed_biz = 0.0
+        open_biz = 0.0
+        if len(value) > 0:
+            for j in range(len(value)):
+                if value[j]['is_closed'] == False:
+                    #print "open!"
+                    scores.append(float(value[j]['rating']))
+                    weights.append(float(value[j]['review_count']))
+                    open_biz += 1
+                elif value[j]['is_closed'] == True:
+                    #print "closed!"
+                    closed_biz += 1
+            scores = np.array(scores)
+            weights = np.array(weights)
+            weighed_score = np.average(scores, weights = weights)
+            unweighed_score = np.average(scores)
+            #print key, open_biz, type(key), type(open_biz), type(df.ix[:,"GEOID"])
+            dftract.loc[dftract["GEOID"].astype(str) == key,"number_restaurants_"+category_cuisine] = open_biz
+            dftract.loc[dftract["GEOID"].astype(str) == key,"closed_number_restaurants_"+category_cuisine] = closed_biz
+            dftract.loc[dftract["GEOID"].astype(str) == key,"average_rating_restaurants_"+category_cuisine] = weighed_score
+            dftract.loc[dftract["GEOID"].astype(str) == key,"unweighed_average_rating_restaurants_"+category_cuisine] = unweighed_score
+            #print float(value[0]['rating']),float(value[0]['review_count'])
+
+
 
 #Make dataframe at the zipcode level
 dfzip = dftract.groupby('ZIPCODE').apply(sum)
@@ -100,11 +140,10 @@ df['fraction_white'] = (df['pop_white'] / df['pop_total'])
 df['fraction_black'] = (df['pop_black'] / df['pop_total'])
 df['fraction_black'] = (df['pop_black'] / df['pop_total'])
 df['pop_density'] = df['transient_residential_pop'] / df['ALAND']
-df['number_restaurants'] = df['number_restaurants_chinese'] + df['number_restaurants_cuban'] +\
-    df['number_restaurants_greek'] + df['number_restaurants_indpak'] + df['number_restaurants_italian'] + \
-    df['number_restaurants_japanese'] + df['number_restaurants_latin'] + df['number_restaurants_mexican'] + \
-    df['number_restaurants_newamerican'] + df['number_restaurants_puertorican'] + \
-    df['number_restaurants_tradamerican'] + df['number_restaurants_vegetarian']
+
+for cuisine_type in cuisine_types:
+    df['number_restaurants'] = df['number_restaurants'] + df['number_restaurants_'+cuisine_type]
+
 df['number_restaurants_capita'] = 10000.0 * (df['number_restaurants'] / df['transient_residential_pop']).replace([np.inf,-np.inf,np.nan],0.0)
 
 
@@ -143,7 +182,13 @@ pred_features = ['pop_density','STATION_DISTANCE','hhmedian','median_owned','med
     'pop_asian','pop_black','pop_indpak','pop_latino','pop_total','pop_white','transient_pop',
     'transient_residential_pop','fraction_asian','fraction_latino']
 
+print len(cuisine_types)
+
+raw_input("enter to continue?")
+
 for cuisine_type in cuisine_types:
+
+    print cuisine_type
 
     feature_cuisine = "number_restaurants_"+cuisine_type
     feature_cuisine_capita = "number_restaurants_capita_"+cuisine_type
