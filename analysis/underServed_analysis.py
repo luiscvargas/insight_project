@@ -41,7 +41,7 @@ def first_element(x):
     return x.iloc[0]
 
 #set to True to produce diagnostic plots and disable writing outputs
-diagnose = True
+diagnose = False
 plt.style.use('ggplot')
 
 #Load yelp api dataframe
@@ -54,6 +54,10 @@ cuisine_types = yelp.keys()
 
 if diagnose == True:
     print(cuisine_types)
+
+print(cuisine_types)
+
+raise ValueError
 
 #Load master dataframe
 dftract = pd.read_json("../data/census_zillow_subway_yelp_data.json")
@@ -91,12 +95,12 @@ for category_cuisine in cuisine_types:
                     closed_biz += 1
             scores = np.array(scores)
             weights = np.array(weights)
-            weighed_score = np.average(scores, weights = weights)
+            #weighed_score = np.average(scores, weights = weights)
             unweighed_score = np.average(scores)
             #print key, open_biz, type(key), type(open_biz), type(df.ix[:,"GEOID"])
             dftract.loc[dftract["GEOID"].astype(str) == key,"number_restaurants_"+category_cuisine] = open_biz
             dftract.loc[dftract["GEOID"].astype(str) == key,"closed_number_restaurants_"+category_cuisine] = closed_biz
-            dftract.loc[dftract["GEOID"].astype(str) == key,"average_rating_restaurants_"+category_cuisine] = weighed_score
+            #dftract.loc[dftract["GEOID"].astype(str) == key,"average_rating_restaurants_"+category_cuisine] = weighed_score
             dftract.loc[dftract["GEOID"].astype(str) == key,"unweighed_average_rating_restaurants_"+category_cuisine] = unweighed_score
             #print float(value[0]['rating']),float(value[0]['review_count'])
 
@@ -186,12 +190,18 @@ print len(cuisine_types)
 
 raw_input("enter to continue?")
 
+cuisine_types.append("all")
+
 for cuisine_type in cuisine_types:
 
-    print cuisine_type
+    print(cuisine_type)
 
-    feature_cuisine = "number_restaurants_"+cuisine_type
-    feature_cuisine_capita = "number_restaurants_capita_"+cuisine_type
+    if cuisine_type == "all":
+        feature_cuisine = "number_restaurants"
+        feature_cuisine_capita = "number_restaurants_capita"
+    else:
+        feature_cuisine = "number_restaurants_"+cuisine_type
+        feature_cuisine_capita = "number_restaurants_capita_"+cuisine_type
 
     if diagnose == True:
 

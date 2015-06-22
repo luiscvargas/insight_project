@@ -21,25 +21,37 @@ def restaurants_output():
 
 	#pull ID from input field and store it.
 
-	with open("app/static/dat/cuisine_types_enabled.json","r") as fp:
-		cuisine_dict = json.load(fp)
+	#with open("app/static/dat/cuisine_types_enabled.json","r") as fp:
+	#	cuisine_dict = json.load(fp)
 
-	with open("app/static/dat/cuisine_types_enabled.dat") as fp:
-		cuisine_types = fp.read().strip("\n")
+	#with open("app/static/dat/cuisine_types_enabled.dat") as fp:
+	#	cuisine_types = fp.read().strip("\n")
 
+	with open("app/static/dat/yelp_api_data.json") as fp:
+ 		json1_str = fp.read() 
+ 		yelp = json.loads(json1_str)
+		cuisine_types = yelp.keys()
 
 	cuisine_usr = request.args.get("cuisine")
 	boroughs = request.args.getlist("area")
-	print cuisine_usr.lower(), boroughs
+	cuisine_usr = cuisine_usr.lower()
+	print cuisine_usr, boroughs
 
 	#convert alternate spellings
-	try: 
-		cuisine_type = cuisine_dict[cuisine_usr.lower()]
-	except: 
-		with open("app/static/dat/cuisine_types_enabled.dat") as fp:
-			cuisine_types = fp.read().split("\n")
-			cuisine_types = [x for x in cuisine_types if len(x) != 0]
+
+	if cuisine_usr in cuisine_types:
+		cuisine_type = cuisine_usr
+	else:
 		return render_template("output.html",areas=[],cuisine=cuisine_types)
+	
+	#try: 
+	#	cuisine_type = cuisine_dict[cuisine_usr.lower()]
+	#except: 
+	#	with open("app/static/dat/cuisine_types_enabled.dat") as fp:
+	#		cuisine_types = fp.read().split("\n")
+	#		cuisine_types = [x for x in cuisine_types if len(x) != 0]
+	#	return render_template("output.html",areas=[],cuisine=cuisine_types)
+
 
 	df = pd.read_json("app/static/dat/underserved_data.json")
 

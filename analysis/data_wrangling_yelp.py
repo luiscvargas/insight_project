@@ -77,8 +77,8 @@ for category in yelp_categories_usa:
 #category_cuisine_list = ["arabian", "brazilian", "cafes", "diners", "ethiopian", 
 #"korean", "mideastern", "peruvian"] DONE
 
-category_cuisine_list = ["colombian", "pizza", "seafood", "soup", "spanish", "french", 
-"turkish", "vegan"]
+#category_cuisine_list = ["colombian", "pizza", "seafood", "soup", "spanish", "french", 
+#"turkish", "vegan"]  DONE
 
 #category_cuisine_list = ["japanese"]
 
