@@ -1,0 +1,112 @@
+html {
+   background-image: url("../images/food_alpha.jpg");  
+   background-size: 100%;
+}
+
+body {
+   padding-top: 30px;
+   font-family: "Open Sans","Helvetica", sans-serif;
+   font-size: 14px;
+   color: lightgray;
+   background-color: inherit;
+}
+.additional-info {
+   font-size: 11px;
+}
+.starter-template {
+   padding: 40px 15px;
+   text-align: center;
+}
+#subtitle {
+	color: darkgray;
+	font-size: 24px;
+   font-style: italic bold;
+   font-family: "Montserrat", serif;
+}
+.explanation {
+   color: darkblue;
+   font-size: 12px;
+   font-style: normal;
+   font-family: "Montserrat","Helvetica",sans-serif;
+}
+#results-title{
+   color: lightgray;
+   font-family: "Montserrat", sans-serif;
+   font-size: 17px;
+}
+#map-title{
+   color: lightgray;
+   font-family: "Montserrat", sans-serif;
+   font-size: 17px;
+}
+#other-title{
+   color: lightgray;
+   font-family: "Montserrat", sans-serif;
+   font-size: 17px;
+}
+td.list-results{
+   color: lightgray;
+   font-size: 13px;
+   font-family: "Montserrat", sans-serif;
+   text-align: center;
+}
+td.list-results.hover{
+   color: darkblue;
+   font-size: 13px;
+   font-style: bold;
+   font-family: "Montserrat", sans-serif;
+}
+
+div.tall {
+   height: 60px;
+   line-height: 30px; /* <-- this is what you must define */
+   vertical-align: middle;
+}
+.margin-md {
+   margin-top: 5px; 
+}
+
+#borough-checkboxes {
+   font-size: 11px;
+   font-style: bold;
+   color: whitesmoke;
+   font-family: "Montserrat", "Open Sans", "Helvetica", sans-serif;
+}
+
+.margin-sm {
+   margin-top: 3px; 
+}
+
+.margin-lg {
+   margin-top: 30px;
+   margin-bottom: 10px;
+}
+
+.margin-xl {
+   margin-top: 140px;
+   margin-bottom: 10px;
+}
+table {
+   color: whitesmoke;
+}
+.zip-info {
+   height: 100px;
+}
+
+.extra-info {
+   height: 100px;
+}
+
+.map-info {
+  height: 200px;
+}
+
+.price-info {
+   height: 200px;
+}
+h1#title{
+   font-size: 66px;
+   /*font-family: 'Lobster', cursive;*/
+   font-family: "Montserrat", sans-serif;
+   margin-bottom: 0;
+}

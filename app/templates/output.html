@@ -13,6 +13,7 @@
 
       <!-- Bootstrap core CSS -->
       <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+      <link href="../static/css/typeahead.css" rel="stylesheet">
       <link href="../static/css/restaurants.css" rel="stylesheet">
 
 
@@ -52,20 +53,9 @@
 
          <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-center">
 
-            <form role="form" action="/output" method="GET">
+            <form role="form" action="/output" method="GET" autocomplete="off">
 
                <div class="row">
-               
-               <div class="input-group">
-                  <input type="text" class="form-control input-md" id="NAME" name="cuisine" placeholder="Cuisine">
-                  <span class="input-group-btn">
-                  <button type="submit" class="btn btn-default btn-md">Get results!</button>
-                  </span>
-               </div>
-               
-               </div>
-               
-               <div class="row margin-md">
 
                   <div class="form-group" id="borough-checkboxes">
 
@@ -83,6 +73,18 @@
                      <input type="checkbox" name="area" value="staten" id="checkbox-staten" value="">STATEN</label>
                   </div>
                   
+               </div>
+               
+               <div class="row">
+               
+               <div id="cuisine-list" class="input-group">
+                  <input type="text" class="typeahead tt-input form-control input-md" id="NAME" name="cuisine" placeholder="Cuisine">
+                  <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default btn-md">Get zipcodes!</button>
+                  </span>
+               </div>
+
+                              
                </div>
 
             </form>
@@ -102,7 +104,7 @@
                
             <div class="row">
  
-                  <h4 id="results-title">Suggested Zipcodes</h4>
+               <h4 id="results-title">Suggested Locations</h4>
                   
             </div> 
                
@@ -114,7 +116,8 @@
     	                   <tr>
                             <th class="text-center col-md-4 col-sm-4 col-xs-4">Zipcode</th>
                             <th class="text-center col-md-4 col-sm-4 col-xs-4">Borough</th>
-                            <th class="text-center col-md-4 col-sm-4 col-xs-4">Deviation (Sigmas)</th>
+                            <th class="text-center col-md-4 col-sm-4 col-xs-4">Score
+                            <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -128,6 +131,8 @@
                         </tbody>
                      </table>
                   </div>
+                  <div class="text-left" style="font-family: 'Alegreya';margin-top:-15px;"> <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
+                     Recommendation Score: 3+: <em>Strong</em>, 2-3: <em>Moderate</em>, 1-2: <em>Weak</em></div>
                   {% else %}
                
                   <div class="explanation text-left">
@@ -152,7 +157,7 @@
                   <h4 id="map-title">Find on Map!</h4>
 
                   <div class="map-info col-md-6 col-md-offset-0 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0 text-center">
-                     <iframe id="google-map" width="420" height="280" frameborder="0" style="border:0" 
+                     <iframe id="google-map" width="420px" height="280px" frameborder="0" style="border:0" 
                      src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCq-IuPHd2vSr9fSgcMzkRupw02DjDLJ2o&q=NewYork">
                      </iframe>
                   </div>
@@ -222,7 +227,7 @@
 		================================================== -->      
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="static/js/bootstrap.min.js"></script>
-   <script src="static/js/typeahead.js"></script>
+   <script src="static/js/typeahead.bundle.min.js"></script>
    <script src="static/js/restaurants.js"></script>
    
 	</body>
