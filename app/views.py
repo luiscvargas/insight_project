@@ -34,8 +34,7 @@ def restaurants_output():
 
 	cuisine_usr = request.args.get("cuisine")
 	boroughs = request.args.getlist("area")
-	cuisine_usr = cuisine_usr.lower()
-	print cuisine_usr, boroughs
+	cuisine_usr = cuisine_usr.lower().strip()
 
 	#convert alternate spellings
 
