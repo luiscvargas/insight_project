@@ -104,7 +104,8 @@
                
             <div class="row">
  
-               <h4 id="results-title">Suggested ZIP (click row to display area)</h4>
+               <h4 id="results-title">Suggested ZIP Codes</h4>
+               <span style="font-size: 12px;">(click row to display in map)</span>
                   
             </div> 
                
@@ -154,18 +155,27 @@
             
             <div class="row">
                
+               <form role="form" action="/zipcode" method="GET">
+
+               
                   <div class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1 col-xs-offset-0 text-center">
                      <div class="btn-group btn-block btn-group-justified" role="group" aria-label="...">
-                     <a href="#" class="btn btn-primary btn-xs" style="color: white">Find on Map</a>
-                     <a href="#" class="btn btn-success btn-xs" style="color: white">More Zipcode Info</a>
+                     <!--<a href="#" class="btn btn-primary btn-xs" style="color: white">Find on Map</a>-->
+                        <div class="btn-group" role="group">
+                           <button type="submit" name="zipval" value="" 
+                             class="btn btn-primary btn-md" id="detailed-info-button" 
+                             style="color: white">More info</button>
+                        </div>
                      </div>
                   </div>
+                  
+               </form>
                
             </div><br>
             <div class="row">
                
                   <div class="map-info col-md-6 col-md-offset-0 col-sm-6 col-sm-offset-0 col-xs-6 col-xs-offset-0 text-center">
-                     <iframe id="google-map" width="420px" height="280px" frameborder="0" style="border:0" 
+                     <iframe id="google-map" width="380px" height="280px" frameborder="0" style="border:0" 
                      src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCq-IuPHd2vSr9fSgcMzkRupw02DjDLJ2o&q=NewYork">
                      </iframe>
                   </div>
@@ -203,6 +213,10 @@
       </div>
 
    </div>
+      
+   <div class="container hide" id="cuisine-type-hidden">
+      {{ cuisine }}
+   </div>
                   <!--
                   <h4 id="results-title">Information on Competitors?</h4>
 
@@ -235,10 +249,17 @@
       </div> -->
 		<!-- Bootstrap core JavaScript
 		================================================== -->      
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="static/js/bootstrap.min.js"></script>
-   <script src="static/js/typeahead.bundle.min.js"></script>
-   <script src="static/js/restaurants.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src="static/js/bootstrap.min.js"></script>
+
+      
+      <!-- Add Fancy Box js -->
+      <link rel="stylesheet" href="../static/js/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+      <script type="text/javascript" src="../static/js/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+      
+      <script src="static/js/typeahead.bundle.min.js"></script>
+  
+      <script src="static/js/restaurants.js"></script>
    
 	</body>
 </html>
