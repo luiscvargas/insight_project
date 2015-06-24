@@ -439,6 +439,9 @@ for cuisine_type in cuisine_types:
 
     print dfsub.head(3)
 
+
+
+
 dfsub.to_json("../data/underserved_data.json")
 
     #sort zipcodes by those with few restaurants
