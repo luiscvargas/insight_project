@@ -24,13 +24,13 @@
       
    </head>
    
-   <body role="document" style="font-family: 'Open Sans'">
+   <body role="document" style="font-family: 'Alegreya'">
 
    <div class="container">
    
       <div class="row margin-sm">
       
-         <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-xs-offset-0 text-center">
+         <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 text-center">
          
             <h3 class="zippage-title">More Information</h3>
             <h4 class="zippage-title">{{ cuisine|title }} restaurants in {{ borough }}, NY, {{ zip }} </h4>
@@ -54,27 +54,27 @@
       
       <div class="row">
       
-         <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-xs-offset-0 text-left">
+         <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-left">
             
             <div class="row">
                According to the model, there is a 
                {% if dx[2] == "0" %}
-               <span style="font-style:bold;font-size:20px;color:darkgray;">{{ dx[0] }} sigma deficit</span>
+               <span style="font-style:bold;font-size:18px;color:white;">{{ dx[0] }} sigma deficit</span>
                {% else %}
-               <span style="font-style:bold;font-size:20px;color:darkgray;">{{ dx[0] }} sigma overcapacity</span>
+               <span style="font-style:bold;font-size:18px;color:white;">{{ dx[0] }} sigma overcapacity</span>
                {% endif %}
                in the number of {{ cuisine }} 
                restaurants in this area relative to similar areas in NYC. <br><br>
                
                The number of restaurants (of any cuisine type) in this zipcode has 
-               grown at <span style="font-style:bold;font-size:20px;color:darkgray;">{{ growth_rate[0] }} times the median growth rate </span>in NYC.<br><br>
+               grown at <span style="font-style:bold;font-size:18px;color:white;">{{ growth_rate[0] }} times the median growth rate </span>in NYC.<br><br>
                
-               The number of restaurants in 2012 was <span style="font-style:bold;font-size:20px;color:darkgray;">{{ growth_rate[1] }} times </span>the number of
+               The number of restaurants in 2012 was <span style="font-style:bold;font-size:18px;color:white;">{{ growth_rate[1] }} times </span>the number of
                restaurants in 2001.<br><br>
             <!--<div class="row">
                RENTAL PRICES?
             </div><br>-->            
-               See more restaurants of the same cuisine type in the vicinity (!not restricted to same zipcode)<br>
+               See more restaurants of the same cuisine type in the vicinity (<em>Note: not restricted to same zipcode)</em><br>
                <div class="text-center">
                <a class="btn btn-sm btn-success" href= {{ yelp_url }}>Go to Yelp!</a>
                </div>
