@@ -19,10 +19,24 @@ def zipcode_box():
  
 	df = df.loc[float(zipcode),:]  #float str () to remove unicode and match floating type
 
+	cuisine_dict = {"Mexican": "mexican", 
+	"Chinese": "chinese", "Japanese": "japanese", "Latin": "latin", 
+	"Greek": "greek","Puerto Rican": "puertorican","Cuban": "cuban",
+	"Indian": "indpak","Italian":"italian","Modern American": "newamerican",
+    "Traditional American": "tradamerican","Vegetarian": "vegetarian",
+    "Arabian": "arabian", "Brazilian": "brazilian", 
+    "Cafes": "cafes", "Diners": "diners", "Ethiopian": "ethiopian", 
+    "Korean": "korean", "Middle Eastern": "mideastern", 
+	"Peruvian": "peruvian", "Colombian": "colombian", "Pizza": "pizza", 
+	"Seafood": "seafood", "Soup": "soup","Spanish": "spanish", 
+	"French": "french", "Turkish": "turkish", "Vegan": "vegan"} 
+
+	cuisine_title = [x for (x,y) in cuisine_dict.items() if y == cuisine][0]
+
 	borough = df.BOROUGH
 
 	#create url for yelp query:
-
+ 
 	if zipcode == "":
 		yelp_url = "#"
 	else:
@@ -35,13 +49,24 @@ def zipcode_box():
 	else:
 		dx_str = "1"
 
-	dx = ["{0:<5.1f}".format(np.abs(df['dx_linear_'+cuisine])),"{0:<5.1f}".format(df['composite_score_'+cuisine]),dx_str]
+	if df['dx_linear_'+cuisine] < -3.0:
+		recommendation = "strong"
+	elif (df['dx_linear_'+cuisine] >= -3.0) & (df['dx_linear_'+cuisine] < -2.0):
+		recommendation = "moderate"
+	elif (df['dx_linear_'+cuisine] >= -2.0) & (df['dx_linear_'+cuisine] < 0.0):
+		recommendation = "weak"	
+	else:
+		recommendation = ""
+
+
+	dx = ["{0:<5.1f}".format(np.abs(df['dx_linear_'+cuisine])),"{0:<5.1f}".format(df['composite_score_'+cuisine]),
+		dx_str,recommendation]
 
 	#http://www.yelp.com/search?find_desc=Restaurants&find_loc=10023&ns=1#find_desc=restaurants+indpak
 
 	#yelp_url = "http://www.yelp.com/search?find_desc=restaurants+indpak&find_loc=11377&ns=1"
 
-	return render_template("zipcode.html",zip=str(zipcode),borough=borough,cuisine=cuisine,yelp_url=yelp_url,
+	return render_template("zipcode.html",zip=str(zipcode),borough=borough,cuisine_title=cuisine_title,yelp_url=yelp_url,
 		growth_rate=growth_rate,dx=dx)
 
 @app.route('/')
@@ -69,16 +94,25 @@ def restaurants_output():
  		yelp = json.loads(json1_str)
 		cuisine_types = yelp.keys()
 
-	cuisine_usr = request.args.get("cuisine")
+	cuisine_dict = {"Mexican": "mexican", 
+	"Chinese": "chinese", "Japanese": "japanese", "Latin": "latin", 
+	"Greek": "greek","Puerto Rican": "puertorican","Cuban": "cuban",
+	"Indian": "indpak","Italian":"italian","Modern American": "newamerican",
+    "Traditional American": "tradamerican","Vegetarian": "vegetarian",
+    "Arabian": "arabian", "Brazilian": "brazilian", 
+    "Cafes": "cafes", "Diners": "diners", "Ethiopian": "ethiopian", 
+    "Korean": "korean", "Middle Eastern": "mideastern", 
+	"Peruvian": "peruvian", "Colombian": "colombian", "Pizza": "pizza", 
+	"Seafood": "seafood", "Soup": "soup","Spanish": "spanish", 
+	"French": "french", "Turkish": "turkish", "Vegan": "vegan"} 
+
+	cuisine_usr = request.args.get("cuisine").strip()
 	boroughs = request.args.getlist("area")
-	cuisine_usr = cuisine_usr.lower().strip()
+	cuisine_type = cuisine_dict[cuisine_usr]
 
-	#convert alternate spellings
-
-	if cuisine_usr in cuisine_types:
-		cuisine_type = cuisine_usr
-	else:
-		return render_template("output.html",areas=[],cuisine=cuisine_types)
+	#return list of cuisines if no match
+	if cuisine_type not in cuisine_types:
+		return render_template("output.html",areas=[],cuisine=cuisine_dict.keys())
 	
 	#try: 
 	#	cuisine_type = cuisine_dict[cuisine_usr.lower()]
