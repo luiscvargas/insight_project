@@ -40,6 +40,9 @@ def create_feature_matrix(dataframe,feature_list,feature_cuisine,single_feature=
 def first_element(x):
     return x.iloc[0]
 
+def string_element(x):
+    return ";".join(x)
+
 #set to True to produce diagnostic plots and disable writing outputs
 diagnose = False
 plt.style.use('ggplot')
@@ -55,9 +58,9 @@ cuisine_types = yelp.keys()
 if diagnose == True:
     print(cuisine_types)
 
-print(cuisine_types)
+cuisine_types = cuisine_types[:1]
 
-raise ValueError
+print(cuisine_types)
 
 #Load master dataframe
 dftract = pd.read_json("../data/census_zillow_subway_yelp_data.json")
@@ -70,6 +73,10 @@ if diagnose == True:
 #First, add features based on types of restaurants to be queried.
 dftract['number_restaurants'] = 0.0
 for category_cuisine in cuisine_types:
+    dftract['restaurants_names_'+category_cuisine] = ""
+    dftract['restaurants_ids_'+category_cuisine] = ""
+    dftract['restaurants_scores_'+category_cuisine] = ""
+    dftract['restaurants_review_counts_'+category_cuisine] = ""
     dftract['number_restaurants_'+category_cuisine] = 0.0
     dftract['average_rating_restaurants_'+category_cuisine] = np.nan
     dftract['unweighed_average_rating_restaurants_'+category_cuisine] = np.nan
@@ -83,6 +90,11 @@ for category_cuisine in cuisine_types:
         weights = []
         closed_biz = 0.0
         open_biz = 0.0
+        names_list = []
+        ids_list = []
+        scores_list = []
+        review_count_list = []
+
         if len(value) > 0:
             for j in range(len(value)):
                 if value[j]['is_closed'] == False:
@@ -90,6 +102,12 @@ for category_cuisine in cuisine_types:
                     scores.append(float(value[j]['rating']))
                     weights.append(float(value[j]['review_count']))
                     open_biz += 1
+                    names_list.append(value[j]['name'])
+                    ids_list.append(value[j]['id'])
+                    scores_list.append(str(value[j]['rating']))
+                    review_count_list.append(str(value[j]['review_count']))
+                    print ids_list
+
                 elif value[j]['is_closed'] == True:
                     #print "closed!"
                     closed_biz += 1
@@ -97,19 +115,37 @@ for category_cuisine in cuisine_types:
             weights = np.array(weights)
             #weighed_score = np.average(scores, weights = weights)
             unweighed_score = np.average(scores)
+            if names_list != []:
+                names_str = ";".join(names_list)
+                ids_str = ";".join(ids_list)
+                scores_str = ";".join(scores_list)
+                review_count_str = ";".join(review_count_list)
+            else:
+                names_str = ""
+                ids_str = ""
+                scores_str = ""
+                review_count_str = "" 
+
             #print key, open_biz, type(key), type(open_biz), type(df.ix[:,"GEOID"])
+
             dftract.loc[dftract["GEOID"].astype(str) == key,"number_restaurants_"+category_cuisine] = open_biz
             dftract.loc[dftract["GEOID"].astype(str) == key,"closed_number_restaurants_"+category_cuisine] = closed_biz
             #dftract.loc[dftract["GEOID"].astype(str) == key,"average_rating_restaurants_"+category_cuisine] = weighed_score
             dftract.loc[dftract["GEOID"].astype(str) == key,"unweighed_average_rating_restaurants_"+category_cuisine] = unweighed_score
+            dftract.loc[dftract["GEOID"].astype(str) == key,"restaurant_names_"+category_cuisine] = names_str
+            dftract.loc[dftract["GEOID"].astype(str) == key,"restaurant_ids_"+category_cuisine] = ids_str
+            dftract.loc[dftract["GEOID"].astype(str) == key,"restaurant_scores_"+category_cuisine] = scores_str
+            dftract.loc[dftract["GEOID"].astype(str) == key,"restaurant_review_counts_"+category_cuisine] = review_count_str
+
+
             #print float(value[0]['rating']),float(value[0]['review_count'])
 
 
-
 #Make dataframe at the zipcode level
-dfzip = dftract.groupby('ZIPCODE').apply(sum)
-dfzip2 = dftract.groupby('ZIPCODE').apply(np.mean)
-dfzip3 = dftract.groupby('ZIPCODE').apply(first_element)
+dfzip  = dftract.groupby('ZIPCODE').sum()
+dfzip2 = dftract.groupby('ZIPCODE').mean()
+dfzip3 = dftract.groupby('ZIPCODE').agg(lambda x: x.iloc[0])
+dfzip4 = dftract.groupby('ZIPCODE').agg(lambda x: ";".join(x.astype(str)))
 dfzip['FRAC_LAND'] = dfzip['ALAND'] / (dfzip['ALAND'] + dfzip['AWATER'])
 dfzip['INTPTLAT'] = dfzip2['INTPTLAT']
 dfzip['INTPTLONG'] = dfzip2['INTPTLONG']
@@ -125,7 +161,20 @@ dfzip['house_index'] = dfzip2['house_index']
 dfzip['median_owned'] = dfzip2['median_owned']
 dfzip['median_rent'] = dfzip2['median_rent']
 dfzip['BOROUGH'] = dfzip3['BOROUGH']
+
+for category_cuisine in cuisine_types:
+    print category_cuisine
+    print dfzip4['restaurant_ids_'+category_cuisine]
+    dfzip['restaurant_ids_'+category_cuisine] = dfzip4['restaurant_ids_'+category_cuisine]
+    dfzip['restaurant_names_'+category_cuisine] = dfzip4['restaurant_names_'+category_cuisine]
+    dfzip['restaurant_scores_'+category_cuisine] = dfzip4['restaurant_scores_'+category_cuisine]
+    dfzip['restaurant_review_counts_'+category_cuisine] = dfzip4['restaurant_review_counts_'+category_cuisine]
+
 dfzip = dfzip.drop(0,axis=0)
+
+print dfzip['restaurant_ids_'+cuisine_types[0]].head(5)
+
+raise ValueError
 
 dfzip.drop("ZIPCODE",axis=1,inplace=True)
 df = dfzip
@@ -151,9 +200,9 @@ for cuisine_type in cuisine_types:
 df['number_restaurants_capita'] = 10000.0 * (df['number_restaurants'] / df['transient_residential_pop']).replace([np.inf,-np.inf,np.nan],0.0)
 
 
-for cuisine_type in cuisine_types:
+for cuisine_type in cuisine_types[0]:
     df['number_restaurants_capita_'+cuisine_type] = 10000.0 *\
-    (df['number_restaurants_'+cuisine_type] / df['transient_residential_pop']).replace([np.inf,-np.inf,np.nan],0.0) 
+    (df['number_restaurants_'+cuisine_type] / df['transient_residential_pop']).replace([np.inf,-np.inf,np.nan],0.0)
 
 if diagnose == True:
     print("Added additional features ...")
@@ -192,7 +241,7 @@ raw_input("enter to continue?")
 
 cuisine_types.append("all")
 
-for cuisine_type in cuisine_types:
+for cuisine_type in cuisine_types[0]:
 
     print(cuisine_type)
 
@@ -439,10 +488,7 @@ for cuisine_type in cuisine_types:
 
     print dfsub.head(3)
 
-
-
-
-dfsub.to_json("../data/underserved_data.json")
+dfsub.to_json("../data/underserved_data_new.json")
 
     #sort zipcodes by those with few restaurants
     #dfsort = dfsub.sort(columns=feature_cuisine_capita, axis=0, ascending=True, inplace=False, kind='quicksort', na_position='last')

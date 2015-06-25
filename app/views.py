@@ -10,15 +10,39 @@ import pandas as pd
 
 @app.route('/zipcode',methods=["GET"])
 def zipcode_box():
-	zipcode = request.args.getlist("zipval")
+	values = str(request.args.getlist("zipval")[0]).split("_")
+
+	zipcode = values[0]
+	cuisine = values[1]
 
 	df = pd.read_json("app/static/dat/underserved_time_data.json")
  
-	df = df.loc[float(zipcode[0]),:]  #float str () to remove unicode and match floating type
+	df = df.loc[float(zipcode),:]  #float str () to remove unicode and match floating type
 
 	borough = df.BOROUGH
 
-	return render_template("zipcode.html",zip=str(zipcode[0]),borough=borough)
+	#create url for yelp query:
+
+	if zipcode == "":
+		yelp_url = "#"
+	else:
+		yelp_url = "http://www.yelp.com/search?find_desc=Restaurants"+"&find_loc="+zipcode+"&ns=1&cflt="+cuisine
+
+	growth_rate = ["{0:<5.1f}".format(df.dNdt_scaled),"{0:<5.1f}".format(df.dNdt)]
+
+	if df['dx_linear_'+cuisine] < 0.0:
+		dx_str = "0"
+	else:
+		dx_str = "1"
+
+	dx = ["{0:<5.1f}".format(np.abs(df['dx_linear_'+cuisine])),"{0:<5.1f}".format(df['composite_score_'+cuisine]),dx_str]
+
+	#http://www.yelp.com/search?find_desc=Restaurants&find_loc=10023&ns=1#find_desc=restaurants+indpak
+
+	#yelp_url = "http://www.yelp.com/search?find_desc=restaurants+indpak&find_loc=11377&ns=1"
+
+	return render_template("zipcode.html",zip=str(zipcode),borough=borough,cuisine=cuisine,yelp_url=yelp_url,
+		growth_rate=growth_rate,dx=dx)
 
 @app.route('/')
 @app.route('/index')

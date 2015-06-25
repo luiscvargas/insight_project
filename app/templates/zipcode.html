@@ -24,60 +24,80 @@
       
    </head>
    
-   <body>
+   <body role="document" style="font-family: 'Open Sans'">
 
    <div class="container">
    
       <div class="row margin-sm">
       
-         <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0 text-center">
+         <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-xs-offset-0 text-center">
          
-            <h3 id="zippage-title">Info on {{ borough }}, {{ zip }}</h3>
-            
+            <h3 class="zippage-title">More Information</h3>
+            <h4 class="zippage-title">{{ cuisine|title }} restaurants in {{ borough }}, NY, {{ zip }} </h4>
+
          </div>
       
-      </div>
-      
+      </div><br>
+      <!--
       <div class="row">
       
          <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-left">
          
-            <div>Growth in number of restaurants:</div>
             <div>The mean (owner) housing price is: </div>
             <div>The total population is : </div>
             <div>The transient population (est) is: </div>
             <div>The median income is: </div>
 
-            
          </div>
       
-      </div>
-      <!--
+      </div><br>-->
+      
       <div class="row">
       
-         <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0 text-left">
-   
-            <a href="/output" style="color: white;">Back to main page</a>.
-      
+         <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-xs-offset-0 text-left">
+            
+            <div class="row">
+               According to the model, there is a 
+               {% if dx[2] == "0" %}
+               <span style="font-style:bold;font-size:20px;color:darkgray;">{{ dx[0] }} sigma deficit</span>
+               {% else %}
+               <span style="font-style:bold;font-size:20px;color:darkgray;">{{ dx[0] }} sigma overcapacity</span>
+               {% endif %}
+               in the number of {{ cuisine }} 
+               restaurants in this area relative to similar areas in NYC. <br><br>
+               
+               The number of restaurants (of any cuisine type) in this zipcode has 
+               grown at <span style="font-style:bold;font-size:20px;color:darkgray;">{{ growth_rate[0] }} times the median growth rate </span>in NYC.<br><br>
+               
+               The number of restaurants in 2012 was <span style="font-style:bold;font-size:20px;color:darkgray;">{{ growth_rate[1] }} times </span>the number of
+               restaurants in 2001.<br><br>
+            <!--<div class="row">
+               RENTAL PRICES?
+            </div><br>-->            
+               See more restaurants of the same cuisine type in the vicinity (!not restricted to same zipcode)<br>
+               <div class="text-center">
+               <a class="btn btn-sm btn-success" href= {{ yelp_url }}>Go to Yelp!</a>
+               </div>
+            
+            </div>
          </div>
-         
-      </div>
-      unneeded as info page opens in new tab-->  
       
       </div>
+
+   </div>
 
    
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-      <script src="static/js/bootstrap.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+   <script src="static/js/bootstrap.min.js"></script>
 
       
-      <!-- Add Fancy Box js -->
-      <link rel="stylesheet" href="../static/js/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-      <script type="text/javascript" src="../static/js/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <!-- Add Fancy Box js -->
+   <link rel="stylesheet" href="../static/js/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+   <script type="text/javascript" src="../static/js/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
       
-      <script src="static/js/typeahead.bundle.min.js"></script>
+   <script src="static/js/typeahead.bundle.min.js"></script>
   
-      <script src="static/js/restaurants.js"></script>
+   <script src="static/js/restaurants.js"></script>
 
    
    </body>
