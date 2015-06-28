@@ -54,7 +54,7 @@ $( document ).ready(function() {
       $("#detailed-info-button").removeClass("disabled");
       //produce map for this zipcode
       var map_url = "https://www.google.com/maps/embed/v1/place?key=AIzaSyCq-IuPHd2vSr9fSgcMzkRupw02DjDLJ2o&zoom=13&q="+zipcode;
-      $("iframe.google-map").attr("src",map_url);
+      $("iframe#google-map").attr("src",map_url);
       //console.log(zipcode);
    });
 

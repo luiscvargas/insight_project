@@ -90,6 +90,14 @@
    #detailed-info-button {
    font-size: 10px;
    }
+   .explanation {
+   color: black;
+   background-color: darkgray;
+   padding: 15px;
+   font-size: 11px;
+   font-style: normal;
+   font-family: "Open Sans","Helvetica",sans-serif;
+   }
 }
 
 
@@ -164,20 +172,21 @@
    #detailed-info-button {
    font-size: 13px;
    }
+   .explanation {
+   color: black;
+   background-color: darkgray;
+   padding: 15px;
+   font-size: 13px;
+   font-style: normal;
+   font-family: "Open Sans","Helvetica",sans-serif;
+   }
 }
-
 
 .starter-template {
    padding: 40px 15px;
    text-align: center;
 }
 
-.explanation {
-   color: darkblue;
-   font-size: 12px;
-   font-style: normal;
-   font-family: "Montserrat","Helvetica",sans-serif;
-}
 
 #other-title{
    color: lightgray;
