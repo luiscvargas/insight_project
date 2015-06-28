@@ -79,7 +79,7 @@ def restaurants_input():
 def restaurants_output():
 
 	#SET DEFAUILT NUMBER OF ZIPCODES TO PRINT OUT
-	NUMBER_ZIPCODES = 8
+	NUMBER_ZIPCODES = 6
 
 	#pull ID from input field and store it.
 
