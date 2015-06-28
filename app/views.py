@@ -79,7 +79,7 @@ def restaurants_input():
 def restaurants_output():
 
 	#SET DEFAUILT NUMBER OF ZIPCODES TO PRINT OUT
-	NUMBER_ZIPCODES = 6
+	NUMBER_ZIPCODES = 7
 
 	#pull ID from input field and store it.
 
@@ -106,12 +106,14 @@ def restaurants_output():
 	"Seafood": "seafood", "Soup": "soup","Spanish": "spanish", 
 	"French": "french", "Turkish": "turkish", "Vegan": "vegan"} 
 
-	cuisine_usr = request.args.get("cuisine").strip()
-	boroughs = request.args.getlist("area")
-	cuisine_type = cuisine_dict[cuisine_usr]
 
-	#return list of cuisines if no match
-	if cuisine_type not in cuisine_types:
+	cuisine_usr = request.args.get("cuisine").strip().title()
+	boroughs = request.args.getlist("area")
+
+	try:
+		cuisine_type = cuisine_dict[cuisine_usr]
+	except:
+		#return list of cuisines if no match
 		return render_template("output.html",areas=[],cuisine=cuisine_dict.keys())
 	
 	#try: 

@@ -168,14 +168,15 @@
                   <div class="text-left" style="font-family: 'Alegreya';margin-top:-15px;"> <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
                      Recommendation Score: <br> 3+: <em>Strong</em>, 2-3: <em>Moderate</em>, 1-2: <em>Weak</em></div>
                   {% else %}
-               
-                  <div class="explanation text-left">
-                     <span style="font-style: bold">Sorry! Currently, only the following options are enabled: </span><br>
-                     <ul>
+                  <br><br><br>
+                  <div class="explanation">
+                     Sorry! There is no information for that cuisine type. The
+                     enabled cuisine types are suggested as you type in the box.<br>
+                     <!--<ul>
                      {% for type in cuisine %}
                      <li> {{ type }} </li>
                      {% endfor %}
-                     </ul>
+                     </ul>-->
                   </div>
                   {% endif %}
                   <br>
