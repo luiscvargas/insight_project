@@ -1,0 +1,241 @@
+.margin-md {
+   margin-top: 5px; 
+}
+.margin-slg {
+   margin-top: 10px; 
+}
+
+.margin-sm {
+   margin-top: 3px; 
+}
+
+.margin-lg {
+   margin-top: 30px;
+   margin-bottom: 10px;
+}
+
+.margin-xl {
+   margin-top: 140px;
+   margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+   html {
+   background-image: url("../images/food_alpha.jpg");  
+   background-size: 100%;
+   }
+   body{font-size: 13px;
+         padding-top: 10px;
+         font-family: "Open Sans","Helvetica", sans-serif;
+         color: lightgray;
+         background-color: inherit;
+   }
+   #subtitle {
+	color: darkgray;
+	font-size: 16px;
+   font-style: italic bold;
+   font-family: "Montserrat", serif;
+   }
+   #map-title{
+   color: lightgray;
+   font-family: "Montserrat", sans-serif;
+   font-size: 13px;
+   }
+   #borough-checkboxes {
+   font-size: 8px;
+   font-style: bold;
+   color: whitesmoke;
+   font-family: "Montserrat", "Open Sans", "Helvetica", sans-serif;
+   }
+   #results-title{
+   color: lightgray;
+   font-family: "Montserrat", sans-serif;
+   font-size: 14px;
+   }
+   h1#title{
+   font-size: 40px;
+   font-family: "Montserrat", sans-serif;
+   margin-bottom: 0;
+   }
+   .zippage-title{
+   color: white;
+	font-size: 18px;
+   font-style: bold;
+   font-family: "Montserrat", "Helvetica", sans-serif;
+   }
+   h3.zippage-title{
+      font-size: 18px; 
+   }
+   th.list-results{
+   color: white;
+   font-size: 12px;
+   font-family: "Montserrat", sans-serif;
+   text-align: center;
+   }
+   td.list-results{
+   color: lightgray;
+   font-size: 10px;
+   font-family: "Montserrat", sans-serif;
+   text-align: center;
+   }
+   td.list-results.hover{
+   color: darkblue;
+   font-size: 10px;
+   font-style: bold;
+   font-family: "Montserrat", sans-serif;
+   }
+   .additional-info {
+   font-size: 7px;
+   }
+   #detailed-info-button {
+   font-size: 10px;
+   }
+}
+
+
+@media (min-width: 600px) {
+   html {
+   background-image: url("../images/food_alpha.jpg");  
+   background-size: 100%;
+   }
+   body{font-size: 16px;
+      padding-top: 30px;
+      font-family: "Open Sans","Helvetica", sans-serif;
+      color: lightgray;
+      background-color: inherit;
+   }
+   #subtitle {
+	color: darkgray;
+	font-size: 24px;
+   font-style: italic bold;
+   font-family: "Montserrat", serif;
+   }
+   #map-title{
+   color: lightgray;
+   font-family: "Montserrat", sans-serif;
+   font-size: 17px;
+   }
+   #borough-checkboxes {
+   font-size: 12px;
+   font-style: bold;
+   color: whitesmoke;
+   font-family: "Montserrat", "Open Sans", "Helvetica", sans-serif;
+   }
+   #results-title{
+   color: lightgray;
+   font-family: "Montserrat", sans-serif;
+   font-size: 17px;
+   }
+   h1#title{
+   font-size: 66px;
+   font-family: "Montserrat", sans-serif;
+   margin-bottom: 0;
+   }
+   .zippage-title{
+   color: white;
+	font-size: 24px;
+   font-style: bold;
+   font-family: "Montserrat", "Helvetica", sans-serif;
+   }
+   h3.zippage-title{
+   font-size: 30px; 
+   }
+   th.list-results{
+   color: white;
+   font-size: 15px;
+   font-family: "Montserrat", sans-serif;
+   text-align: center;
+   }
+   td.list-results{
+   color: lightgray;
+   font-size: 13px;
+   font-family: "Montserrat", sans-serif;
+   text-align: center;
+   }
+   td.list-results.hover{
+   color: darkblue;
+   font-size: 13px;
+   font-style: bold;
+   font-family: "Montserrat", sans-serif;
+   }
+   .additional-info {
+   font-size: 11px;
+   }
+   #detailed-info-button {
+   font-size: 13px;
+   }
+}
+
+
+.starter-template {
+   padding: 40px 15px;
+   text-align: center;
+}
+
+.explanation {
+   color: darkblue;
+   font-size: 12px;
+   font-style: normal;
+   font-family: "Montserrat","Helvetica",sans-serif;
+}
+
+#other-title{
+   color: lightgray;
+   font-family: "Montserrat", sans-serif;
+   font-size: 17px;
+}
+
+
+div.tall {
+   height: 60px;
+   line-height: 30px; /* <-- this is what you must define */
+   vertical-align: middle;
+}
+
+table {
+   color: whitesmoke;
+}
+.zip-info {
+   height: 100px;
+}
+
+.extra-info {
+   height: 100px;
+}
+
+.price-info {
+   height: 200px;
+}
+
+/*.map-info {
+  height: 200px;
+}*/
+
+@media (min-width: 768px)  {
+   #google-map {
+   width: 320px; 
+   height: 280px;
+   }
+}
+
+@media (max-width: 768px) and (min-width: 650px)  {
+   #google-map {
+   width: 300px; 
+   height: 280px;
+   }
+}
+
+@media (max-width: 650px) and (min-width: 540px)  {
+   #google-map {
+   width: 240px; 
+   height: 280px;
+   }
+}
+
+@media (max-width: 540px)  {
+   #google-map {
+   width: 180px; 
+   height: 240px;
+   }
+}
+
