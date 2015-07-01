@@ -50,11 +50,13 @@ def zipcode_box():
 		dx_str = "1"
 
 	if df['dx_linear_'+cuisine] < -3.0:
-		recommendation = "strong"
+		recommendation = "very strong"
 	elif (df['dx_linear_'+cuisine] >= -3.0) & (df['dx_linear_'+cuisine] < -2.0):
-		recommendation = "moderate"
-	elif (df['dx_linear_'+cuisine] >= -2.0) & (df['dx_linear_'+cuisine] < 0.0):
-		recommendation = "weak"	
+		recommendation = "strong"
+	elif (df['dx_linear_'+cuisine] >= -2.0) & (df['dx_linear_'+cuisine] < -1.0):
+		recommendation = "moderate"	
+	elif (df['dx_linear_'+cuisine] >= -1.0) & (df['dx_linear_'+cuisine] < 0.0):
+		recommendation = "weak"
 	else:
 		recommendation = ""
 

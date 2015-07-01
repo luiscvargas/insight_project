@@ -41,7 +41,7 @@
       
       <div class="row">
          
-            <div class="additional-info col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-center">
+            <div class="additional-info col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-center">
                
                <div class="btn-group btn-block btn-group-justified" role="group" aria-label="...">
                   <a href="http://www.slideshare.net/LuisCVargas/vargas-demo-final/1" class="btn btn-default btn-xs" target="_blank">Project Slides</a>
@@ -170,13 +170,13 @@
             <div class="row">
                   {% if areas != []%}
                   <div class="table-responsive">
-                     <table class="table table-condensed text-center table-hover col-md-4 col-sm-4 col-xs-4">
+                     <table style="background-color: white" class="table table-bordered table-condensed text-center table-hover col-md-4 col-sm-4 col-xs-4">
                         <thead>
     	                   <tr>
                             <th class="list-header text-center col-md-4 col-sm-4 col-xs-4">Zipcode</th>
                             <th class="list-header text-center col-md-4 col-sm-4 col-xs-4">Borough</th>
                             <th class="list-header text-center col-md-4 col-sm-4 col-xs-4">Score
-                            <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></th>
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -190,8 +190,13 @@
                         </tbody>
                      </table>
                   </div>
-                  <div class="text-left" style="font-family: 'Alegreya';margin-top:-15px;"> <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
-                     Recommendation Score: <br> 3+: <em>Strong</em>, 2-3: <em>Moderate</em>, 1-2: <em>Weak</em></div>
+                  <div class="text-left" style="font-family: 'Alegreya';margin-top:-15px;"> <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                     Recommendation Score: <br> 
+                     <div style="font-size: 12px">
+                     3 and above: Very strong<br>
+                     2-3: Strong<br>
+                     1-2: Moderate <br>
+                     Less than 1: Weak</div></div>
                   {% else %}
                   <br><br><br>
                   <div class="explanation">
