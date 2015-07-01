@@ -19,10 +19,10 @@
    margin-bottom: 10px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
    html {
    background-image: url("../images/food_alpha.jpg");  
-   background-size: 100%;
+   background-size: 240%;
    }
    body{font-size: 13px;
          padding-top: 10px;
@@ -32,7 +32,7 @@
    }
    #subtitle {
 	color: darkgray;
-	font-size: 16px;
+	font-size: 13px;
    font-style: italic bold;
    font-family: "Montserrat", serif;
    }
@@ -67,13 +67,13 @@
       font-size: 18px; 
    }
    th.list-results{
-   color: white;
+   color: black;
    font-size: 12px;
    font-family: "Montserrat", sans-serif;
    text-align: center;
    }
    td.list-results{
-   color: lightgray;
+   color: black;
    font-size: 10px;
    font-family: "Montserrat", sans-serif;
    text-align: center;
@@ -101,10 +101,10 @@
 }
 
 
-@media (min-width: 600px) {
+@media (min-width: 768px) {
    html {
    background-image: url("../images/food_alpha.jpg");  
-   background-size: 100%;
+   background-size: 150%;
    }
    body{font-size: 16px;
       padding-top: 30px;
@@ -114,7 +114,7 @@
    }
    #subtitle {
 	color: darkgray;
-	font-size: 24px;
+	font-size: 18px;
    font-style: italic bold;
    font-family: "Montserrat", serif;
    }
@@ -141,21 +141,21 @@
    }
    .zippage-title{
    color: white;
-	font-size: 24px;
+	font-size: 20px;
    font-style: bold;
    font-family: "Montserrat", "Helvetica", sans-serif;
    }
    h3.zippage-title{
-   font-size: 30px; 
+   font-size: 24px; 
    }
    th.list-results{
-   color: white;
+   color: black;
    font-size: 15px;
    font-family: "Montserrat", sans-serif;
    text-align: center;
    }
    td.list-results{
-   color: lightgray;
+   color: black;
    font-size: 13px;
    font-family: "Montserrat", sans-serif;
    text-align: center;
@@ -202,7 +202,7 @@ div.tall {
 }
 
 table {
-   color: whitesmoke;
+   color: black;
 }
 .zip-info {
    height: 100px;
